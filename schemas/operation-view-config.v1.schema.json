@@ -1,0 +1,40 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "operation-view-config.v1",
+      "default": "operation-view-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "max_operations": {
+      "default": 5000,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Max Operations",
+      "type": "integer"
+    },
+    "max_source_visits": {
+      "default": 1000,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Max Source Visits",
+      "type": "integer"
+    },
+    "max_candidates": {
+      "default": 32,
+      "maximum": 1000,
+      "minimum": 1,
+      "title": "Max Candidates",
+      "type": "integer"
+    },
+    "state_rules": {
+      "const": "intent-selected-v1",
+      "default": "intent-selected-v1",
+      "title": "State Rules",
+      "type": "string"
+    }
+  },
+  "title": "OperationConfig",
+  "type": "object"
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": "java-config.v1",
+  "platform_api": null,
+  "fallback_api": 16,
+  "timeout_seconds": 120.0,
+  "heap_mb": 2048,
+  "max_methods": 100000,
+  "max_units_per_method": 1000000,
+  "max_method_file_bytes": 33554432,
+  "max_output_bytes": 268435456
+}

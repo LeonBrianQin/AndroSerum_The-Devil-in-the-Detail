@@ -1,0 +1,47 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "jimple-commit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "request_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Request Sha256",
+      "type": "string"
+    },
+    "apk_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Apk Sha256",
+      "type": "string"
+    },
+    "path": {
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Path",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Sha256",
+      "type": "string"
+    },
+    "signature": {
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Signature",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "request_sha256",
+    "apk_sha256",
+    "path",
+    "sha256",
+    "signature"
+  ],
+  "title": "MethodCommit",
+  "type": "object"
+}

@@ -1,0 +1,45 @@
+{
+  "$defs": {
+    "JsonValue": {}
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "facts-config.v1",
+      "default": "facts-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "requested_capabilities": {
+      "items": {
+        "enum": [
+          "dex",
+          "manifest",
+          "resources",
+          "dex_jimple_mapping",
+          "data_flow",
+          "calls",
+          "objects",
+          "control",
+          "events"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Requested Capabilities",
+      "type": "array"
+    },
+    "options": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "title": "Options",
+      "type": "object"
+    }
+  },
+  "required": [
+    "requested_capabilities"
+  ],
+  "title": "FactConfig",
+  "type": "object"
+}

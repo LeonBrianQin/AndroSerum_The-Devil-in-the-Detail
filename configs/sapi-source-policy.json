@@ -1,0 +1,19 @@
+{
+  "schema_version": "sapi-source-policy.v1",
+  "formal_anchor_catalog_ready": false,
+  "role_policy": {
+    "permission_requirement": "anchor_candidate_after_signature_normalization",
+    "source": "anchor_candidate_after_signature_normalization",
+    "sink": "downstream_use_only_no_automatic_anchor",
+    "propagation_summary": "flow_model_only_no_automatic_anchor",
+    "crypto_operation": "anchor_candidate_after_rule_and_signature_import",
+    "callback_model": "event_model_only_no_automatic_anchor"
+  },
+  "required_sources": [
+    {"id": "sdk_aosp_permissions", "role": "permission_requirement", "state": "pending_version_and_annotation_acquisition"},
+    {"id": "pscout", "role": "permission_requirement", "state": "pending_version_and_mapping_acquisition"},
+    {"id": "axplorer", "role": "permission_requirement", "state": "pending_version_and_mapping_acquisition"},
+    {"id": "flowdroid", "version": "2.15.1", "role": "source", "state": "pinned_signature_import_and_match_v1"},
+    {"id": "crypto_api_rules", "role": "crypto_operation", "state": "pinned_MessageDigest_Cipher_event_import_remaining_specs_pending"}
+  ]
+}

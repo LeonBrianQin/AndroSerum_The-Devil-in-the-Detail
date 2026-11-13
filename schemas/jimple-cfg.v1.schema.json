@@ -1,0 +1,201 @@
+{
+  "$defs": {
+    "DefOracle": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "minimum": 0,
+          "title": "Unit",
+          "type": "integer"
+        },
+        "local_index": {
+          "minimum": 0,
+          "title": "Local Index",
+          "type": "integer"
+        },
+        "definitions": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Definitions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "unit",
+        "local_index",
+        "definitions"
+      ],
+      "title": "DefOracle",
+      "type": "object"
+    },
+    "EscapingException": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "minimum": 0,
+          "title": "Unit",
+          "type": "integer"
+        },
+        "included_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Included Types",
+          "type": "array"
+        },
+        "excluded_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Excluded Types",
+          "type": "array"
+        }
+      },
+      "required": [
+        "unit",
+        "included_types",
+        "excluded_types"
+      ],
+      "title": "EscapingException",
+      "type": "object"
+    },
+    "ExceptionalEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "minimum": 0,
+          "title": "Source",
+          "type": "integer"
+        },
+        "target": {
+          "minimum": 0,
+          "title": "Target",
+          "type": "integer"
+        },
+        "trap_index": {
+          "minimum": 0,
+          "title": "Trap Index",
+          "type": "integer"
+        },
+        "exception_type": {
+          "title": "Exception Type",
+          "type": "string"
+        },
+        "transfer": {
+          "const": "before_unit",
+          "title": "Transfer",
+          "type": "string"
+        },
+        "included_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Included Types",
+          "type": "array"
+        },
+        "excluded_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Excluded Types",
+          "type": "array"
+        }
+      },
+      "required": [
+        "source",
+        "target",
+        "trap_index",
+        "exception_type",
+        "transfer",
+        "included_types",
+        "excluded_types"
+      ],
+      "title": "ExceptionalEdge",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "jimple-cfg.v1",
+      "default": "jimple-cfg.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "method_signature": {
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Method Signature",
+      "type": "string"
+    },
+    "method_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Method Sha256",
+      "type": "string"
+    },
+    "unit_count": {
+      "minimum": 0,
+      "title": "Unit Count",
+      "type": "integer"
+    },
+    "exception_model": {
+      "const": "soot-4.7.1-unit-throw-analysis",
+      "title": "Exception Model",
+      "type": "string"
+    },
+    "normal_edges": {
+      "items": {
+        "maxItems": 2,
+        "minItems": 2,
+        "prefixItems": [
+          {
+            "minimum": 0,
+            "type": "integer"
+          },
+          {
+            "minimum": 0,
+            "type": "integer"
+          }
+        ],
+        "type": "array"
+      },
+      "title": "Normal Edges",
+      "type": "array"
+    },
+    "exception_edges": {
+      "items": {
+        "$ref": "#/$defs/ExceptionalEdge"
+      },
+      "title": "Exception Edges",
+      "type": "array"
+    },
+    "escaping_exceptions": {
+      "items": {
+        "$ref": "#/$defs/EscapingException"
+      },
+      "title": "Escaping Exceptions",
+      "type": "array"
+    },
+    "normal_defs_oracle": {
+      "items": {
+        "$ref": "#/$defs/DefOracle"
+      },
+      "title": "Normal Defs Oracle",
+      "type": "array"
+    }
+  },
+  "required": [
+    "method_signature",
+    "method_sha256",
+    "unit_count",
+    "exception_model",
+    "normal_edges",
+    "exception_edges",
+    "escaping_exceptions",
+    "normal_defs_oracle"
+  ],
+  "title": "MethodCFG",
+  "type": "object"
+}

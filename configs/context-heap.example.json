@@ -1,0 +1,7 @@
+{
+  "schema_version": "context-heap-config.v1",
+  "root_signatures": [],
+  "max_depth": 4,
+  "max_nodes": 5000,
+  "max_frames": 256
+}

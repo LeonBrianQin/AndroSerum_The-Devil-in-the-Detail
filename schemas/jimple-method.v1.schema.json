@@ -1,0 +1,512 @@
+{
+  "$defs": {
+    "IRInvoke": {
+      "additionalProperties": false,
+      "properties": {
+        "signature": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Signature",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "static",
+            "interface",
+            "special",
+            "dynamic",
+            "virtual"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "arguments": {
+          "items": {
+            "$ref": "#/$defs/IRValue"
+          },
+          "title": "Arguments",
+          "type": "array"
+        },
+        "receiver": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "phantom_owner": {
+          "title": "Phantom Owner",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "signature",
+        "kind",
+        "arguments",
+        "receiver",
+        "phantom_owner"
+      ],
+      "title": "IRInvoke",
+      "type": "object"
+    },
+    "IRLocal": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "type_descriptor": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Type Descriptor"
+        }
+      },
+      "required": [
+        "index",
+        "name",
+        "type_descriptor"
+      ],
+      "title": "IRLocal",
+      "type": "object"
+    },
+    "IRTrap": {
+      "additionalProperties": false,
+      "properties": {
+        "exception_type": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Exception Type",
+          "type": "string"
+        },
+        "begin": {
+          "minimum": 0,
+          "title": "Begin",
+          "type": "integer"
+        },
+        "end": {
+          "minimum": 0,
+          "title": "End",
+          "type": "integer"
+        },
+        "handler": {
+          "minimum": 0,
+          "title": "Handler",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "exception_type",
+        "begin",
+        "end",
+        "handler"
+      ],
+      "title": "IRTrap",
+      "type": "object"
+    },
+    "IRUnit": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "identity",
+            "invoke",
+            "return",
+            "branch",
+            "field_write",
+            "field_read",
+            "array_write",
+            "array_read",
+            "allocation",
+            "constant",
+            "assignment",
+            "throw",
+            "monitor",
+            "nop",
+            "other"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "definitions": {
+          "items": {
+            "$ref": "#/$defs/IRValue"
+          },
+          "title": "Definitions",
+          "type": "array"
+        },
+        "uses": {
+          "items": {
+            "$ref": "#/$defs/IRValue"
+          },
+          "title": "Uses",
+          "type": "array"
+        },
+        "invoke": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRInvoke"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "targets": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Targets",
+          "type": "array"
+        },
+        "switch_keys": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Switch Keys",
+          "type": "array"
+        },
+        "condition": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "falls_through": {
+          "title": "Falls Through",
+          "type": "boolean"
+        },
+        "branches": {
+          "title": "Branches",
+          "type": "boolean"
+        },
+        "left": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "right": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "offsets_code_units": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Offsets Code Units",
+          "type": "array"
+        },
+        "tag_names": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tag Names",
+          "type": "array"
+        },
+        "line_number": {
+          "title": "Line Number",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "index",
+        "text",
+        "operation",
+        "definitions",
+        "uses",
+        "invoke",
+        "targets",
+        "switch_keys",
+        "condition",
+        "falls_through",
+        "branches",
+        "left",
+        "right",
+        "offsets_code_units",
+        "tag_names",
+        "line_number"
+      ],
+      "title": "IRUnit",
+      "type": "object"
+    },
+    "IRValue": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "type_descriptor": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Type Descriptor"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "local_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Local Index"
+        },
+        "parameter_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parameter Index"
+        },
+        "identity_kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "this",
+                "parameter",
+                "caught_exception"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Identity Kind"
+        },
+        "base": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "index_value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "constant_kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "int",
+                "long",
+                "float_bits",
+                "double_bits",
+                "string",
+                "utf16_units",
+                "null",
+                "class"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Constant Kind"
+        },
+        "constant": {
+          "$ref": "#/$defs/JsonValue"
+        },
+        "field_signature": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Field Signature"
+        },
+        "children": {
+          "items": {
+            "$ref": "#/$defs/IRValue"
+          },
+          "title": "Children",
+          "type": "array"
+        },
+        "truncated": {
+          "title": "Truncated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "type_descriptor",
+        "text",
+        "local_index",
+        "constant_kind",
+        "constant",
+        "field_signature",
+        "children",
+        "truncated"
+      ],
+      "title": "IRValue",
+      "type": "object"
+    },
+    "JsonValue": {}
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "jimple-method.v1",
+      "default": "jimple-method.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "signature": {
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Signature",
+      "type": "string"
+    },
+    "soot_signature": {
+      "title": "Soot Signature",
+      "type": "string"
+    },
+    "modifiers": {
+      "minimum": 0,
+      "title": "Modifiers",
+      "type": "integer"
+    },
+    "state": {
+      "enum": [
+        "complete",
+        "abstract",
+        "native",
+        "unavailable",
+        "truncated",
+        "failed"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    },
+    "declared_unit_count": {
+      "minimum": 0,
+      "title": "Declared Unit Count",
+      "type": "integer"
+    },
+    "locals": {
+      "items": {
+        "$ref": "#/$defs/IRLocal"
+      },
+      "title": "Locals",
+      "type": "array"
+    },
+    "units": {
+      "items": {
+        "$ref": "#/$defs/IRUnit"
+      },
+      "title": "Units",
+      "type": "array"
+    },
+    "traps": {
+      "items": {
+        "$ref": "#/$defs/IRTrap"
+      },
+      "title": "Traps",
+      "type": "array"
+    }
+  },
+  "required": [
+    "signature",
+    "soot_signature",
+    "modifiers",
+    "state",
+    "reason",
+    "declared_unit_count",
+    "locals",
+    "units",
+    "traps"
+  ],
+  "title": "JimpleMethod",
+  "type": "object"
+}

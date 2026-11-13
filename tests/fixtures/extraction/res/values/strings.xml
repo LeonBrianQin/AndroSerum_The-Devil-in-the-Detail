@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">F1 Extraction Fixture</string>
+  <string name="message">Hello fixture</string>
+  <string name="endpoint">https://example.invalid/fixture</string>
+  <integer name="answer">42</integer>
+  <bool name="enabled">true</bool>
+  <color name="accent">#ff123456</color>
+  <string-array name="items"><item>one</item><item>two</item></string-array>
+</resources>

@@ -1,0 +1,44 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "jimple-run.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "request_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Request Sha256",
+      "type": "string"
+    },
+    "apk_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Apk Sha256",
+      "type": "string"
+    },
+    "android_jar_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Android Jar Sha256",
+      "type": "string"
+    },
+    "java_version": {
+      "title": "Java Version",
+      "type": "string"
+    },
+    "soot_version": {
+      "const": "4.7.1",
+      "title": "Soot Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "request_sha256",
+    "apk_sha256",
+    "android_jar_sha256",
+    "java_version",
+    "soot_version"
+  ],
+  "title": "BackendStart",
+  "type": "object"
+}

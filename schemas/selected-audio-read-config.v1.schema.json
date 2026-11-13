@@ -1,0 +1,79 @@
+{
+  "$defs": {
+    "ReadSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "root_signature": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Root Signature",
+          "type": "string"
+        },
+        "writer_offset_code_units": {
+          "minimum": 0,
+          "title": "Writer Offset Code Units",
+          "type": "integer"
+        },
+        "reader_signature": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Reader Signature",
+          "type": "string"
+        },
+        "reader_offsets_code_units": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 2,
+          "minItems": 1,
+          "title": "Reader Offsets Code Units",
+          "type": "array"
+        }
+      },
+      "required": [
+        "root_signature",
+        "writer_offset_code_units",
+        "reader_signature",
+        "reader_offsets_code_units"
+      ],
+      "title": "ReadSelection",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "selected-audio-read-config.v1",
+      "default": "selected-audio-read-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "apk_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Apk Sha256",
+      "type": "string"
+    },
+    "selections": {
+      "items": {
+        "$ref": "#/$defs/ReadSelection"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Selections",
+      "type": "array"
+    },
+    "max_visits": {
+      "default": 20000,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Max Visits",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "apk_sha256",
+    "selections"
+  ],
+  "title": "AudioReadConfig",
+  "type": "object"
+}

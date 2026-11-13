@@ -1,0 +1,94 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "bu-config.v1",
+      "default": "bu-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "root_signatures": {
+      "items": {
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Root Signatures",
+      "type": "array"
+    },
+    "max_units": {
+      "default": 256,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Max Units",
+      "type": "integer"
+    },
+    "max_roots": {
+      "default": 256,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Max Roots",
+      "type": "integer"
+    },
+    "max_tasks": {
+      "default": 2000,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Max Tasks",
+      "type": "integer"
+    },
+    "max_operations": {
+      "default": 256,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Max Operations",
+      "type": "integer"
+    },
+    "max_support_records": {
+      "default": 5000,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Max Support Records",
+      "type": "integer"
+    },
+    "max_support_files": {
+      "default": 5000,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Max Support Files",
+      "type": "integer"
+    },
+    "context_policy": {
+      "const": "existing_frame_projections_only",
+      "default": "existing_frame_projections_only",
+      "title": "Context Policy",
+      "type": "string"
+    },
+    "source_policy": {
+      "const": "never_expand_other_consumers",
+      "default": "never_expand_other_consumers",
+      "title": "Source Policy",
+      "type": "string"
+    },
+    "visibility_policy": {
+      "const": "explicit_records_no_raw_files",
+      "default": "explicit_records_no_raw_files",
+      "title": "Visibility Policy",
+      "type": "string"
+    },
+    "condition_source_policy": {
+      "const": "existing_predicate_inputs",
+      "default": "existing_predicate_inputs",
+      "title": "Condition Source Policy",
+      "type": "string"
+    },
+    "information_flow_policy": {
+      "const": "unique_root_frame_summary",
+      "default": "unique_root_frame_summary",
+      "title": "Information Flow Policy",
+      "type": "string"
+    }
+  },
+  "title": "BUConfig",
+  "type": "object"
+}

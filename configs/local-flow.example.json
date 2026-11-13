@@ -1,0 +1,7 @@
+{
+  "schema_version": "local-flow-config.v1",
+  "exception_policy": "soot_direct_pre_state",
+  "max_worklist_visits": 100000,
+  "max_cfg_edges": 200000,
+  "max_witness_visits": 2000000
+}

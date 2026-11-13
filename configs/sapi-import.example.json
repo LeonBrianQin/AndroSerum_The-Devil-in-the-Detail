@@ -1,0 +1,12 @@
+{
+  "schema_version": "sapi-import-config.v1",
+  "sources": [{
+    "source_id": "flowdroid-soot-infoflow-android-bundled",
+    "version": "2.15.1",
+    "path": ".tools/m2/de/fraunhofer/sit/sse/flowdroid/soot-infoflow-android/2.15.1/soot-infoflow-android-2.15.1.jar",
+    "archive_entry": "SourcesAndSinks.txt",
+    "sha256": "a73be312561b9f07018e2ca6f72a5629f2c746527692ecf1d9e07841c7fc289a",
+    "resource_sha256": "06e288dd12067a9068458b0abf664dc2878760077786044436210b1875b6e6ef",
+    "format": "flowdroid_tagged"
+  }]
+}

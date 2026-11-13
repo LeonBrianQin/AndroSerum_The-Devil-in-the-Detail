@@ -1,0 +1,1992 @@
+{
+  "$defs": {
+    "AnalysisNodeRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "kind": {
+          "const": "analysis_node",
+          "title": "Kind",
+          "type": "string"
+        },
+        "position": {
+          "discriminator": {
+            "mapping": {
+              "analysis": "#/$defs/AnalysisPosition",
+              "model": "#/$defs/ModelPosition"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/AnalysisPosition"
+            },
+            {
+              "$ref": "#/$defs/ModelPosition"
+            }
+          ],
+          "title": "Position"
+        },
+        "node_kind": {
+          "enum": [
+            "jimple",
+            "cfg",
+            "object",
+            "state",
+            "entry",
+            "event",
+            "mapping"
+          ],
+          "title": "Node Kind",
+          "type": "string"
+        },
+        "method_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Method Ref"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "slots": {
+          "items": {
+            "$ref": "#/$defs/ProgramSlot"
+          },
+          "title": "Slots",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "kind",
+        "position",
+        "node_kind"
+      ],
+      "title": "AnalysisNodeRecord",
+      "type": "object"
+    },
+    "AnalysisPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "analysis",
+          "title": "Kind",
+          "type": "string"
+        },
+        "artifact_path": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Artifact Path",
+          "type": "string"
+        },
+        "position_label": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Position Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "artifact_path",
+        "position_label"
+      ],
+      "title": "AnalysisPosition",
+      "type": "object"
+    },
+    "AnalysisRun": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "program-facts.v1",
+          "default": "program-facts.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "id_version": {
+          "const": "program-id.v1",
+          "default": "program-id.v1",
+          "title": "Id Version",
+          "type": "string"
+        },
+        "input_kind": {
+          "enum": [
+            "apk",
+            "synthetic"
+          ],
+          "title": "Input Kind",
+          "type": "string"
+        },
+        "apk_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Apk Sha256",
+          "type": "string"
+        },
+        "apk_size_bytes": {
+          "minimum": 0,
+          "title": "Apk Size Bytes",
+          "type": "integer"
+        },
+        "input_name": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Input Name",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "tools": {
+          "items": {
+            "$ref": "#/$defs/ToolVersion"
+          },
+          "minItems": 1,
+          "title": "Tools",
+          "type": "array"
+        },
+        "artifacts": {
+          "items": {
+            "$ref": "#/$defs/VersionedArtifact"
+          },
+          "title": "Artifacts",
+          "type": "array"
+        },
+        "configuration": {
+          "$ref": "#/$defs/FactConfig"
+        },
+        "config_fingerprint": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Config Fingerprint",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "input_kind",
+        "apk_sha256",
+        "apk_size_bytes",
+        "input_name",
+        "created_at",
+        "tools",
+        "configuration",
+        "config_fingerprint"
+      ],
+      "title": "AnalysisRun",
+      "type": "object"
+    },
+    "AnalysisScope": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "run",
+            "element",
+            "location"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "element_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Element Ref"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "discriminator": {
+                "mapping": {
+                  "analysis": "#/$defs/AnalysisPosition",
+                  "archive": "#/$defs/ArchivePosition",
+                  "dex_declaration": "#/$defs/DexDeclarationPosition",
+                  "dex_instruction": "#/$defs/InstructionPosition",
+                  "model": "#/$defs/ModelPosition"
+                },
+                "propertyName": "kind"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/ArchivePosition"
+                },
+                {
+                  "$ref": "#/$defs/DexDeclarationPosition"
+                },
+                {
+                  "$ref": "#/$defs/InstructionPosition"
+                },
+                {
+                  "$ref": "#/$defs/AnalysisPosition"
+                },
+                {
+                  "$ref": "#/$defs/ModelPosition"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "AnalysisScope",
+      "type": "object"
+    },
+    "AnalysisStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "tool_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Tool Ref",
+          "type": "string"
+        },
+        "capability": {
+          "enum": [
+            "dex",
+            "manifest",
+            "resources",
+            "dex_jimple_mapping",
+            "data_flow",
+            "calls",
+            "objects",
+            "control",
+            "events"
+          ],
+          "title": "Capability",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/AnalysisScope"
+        },
+        "state": {
+          "enum": [
+            "complete",
+            "partial",
+            "not_started",
+            "unavailable",
+            "failed",
+            "truncated"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "unknowns": {
+          "items": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Unknowns",
+          "type": "array"
+        },
+        "issue_code": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Issue Code"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "tool_ref",
+        "capability",
+        "scope",
+        "state"
+      ],
+      "title": "AnalysisStatus",
+      "type": "object"
+    },
+    "ArchivePosition": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "archive",
+          "title": "Kind",
+          "type": "string"
+        },
+        "path": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Path",
+          "type": "string"
+        },
+        "selector": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Selector"
+        }
+      },
+      "required": [
+        "kind",
+        "path"
+      ],
+      "title": "ArchivePosition",
+      "type": "object"
+    },
+    "BindingRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "binding_kind": {
+          "enum": [
+            "object",
+            "value",
+            "state"
+          ],
+          "title": "Binding Kind",
+          "type": "string"
+        },
+        "endpoints": {
+          "items": {
+            "$ref": "#/$defs/Endpoint"
+          },
+          "minItems": 2,
+          "title": "Endpoints",
+          "type": "array"
+        },
+        "context_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Context Ref"
+        },
+        "condition_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Condition Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "binding_kind",
+        "endpoints"
+      ],
+      "title": "BindingRecord",
+      "type": "object"
+    },
+    "ClassRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "kind": {
+          "const": "class",
+          "title": "Kind",
+          "type": "string"
+        },
+        "position": {
+          "$ref": "#/$defs/DexDeclarationPosition"
+        },
+        "descriptor": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Descriptor",
+          "type": "string"
+        },
+        "superclass": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Superclass"
+        },
+        "interfaces": {
+          "items": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Interfaces",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "kind",
+        "position",
+        "descriptor",
+        "superclass"
+      ],
+      "title": "ClassRecord",
+      "type": "object"
+    },
+    "ConditionRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "kind": {
+          "const": "condition",
+          "title": "Kind",
+          "type": "string"
+        },
+        "branch_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Branch Ref",
+          "type": "string"
+        },
+        "branch_label": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Branch Label",
+          "type": "string"
+        },
+        "value_endpoint": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "expected_value": {
+          "$ref": "#/$defs/ValueInfo"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "kind",
+        "branch_ref",
+        "branch_label",
+        "value_endpoint",
+        "expected_value"
+      ],
+      "title": "ConditionRecord",
+      "type": "object"
+    },
+    "ConfigurationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "kind": {
+          "const": "configuration",
+          "title": "Kind",
+          "type": "string"
+        },
+        "position": {
+          "$ref": "#/$defs/ArchivePosition"
+        },
+        "configuration_kind": {
+          "enum": [
+            "component",
+            "permission",
+            "intent_filter",
+            "manifest_attribute"
+          ],
+          "title": "Configuration Kind",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/ValueInfo"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "kind",
+        "position",
+        "configuration_kind",
+        "name",
+        "value"
+      ],
+      "title": "ConfigurationRecord",
+      "type": "object"
+    },
+    "ContextRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "abstraction": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Abstraction",
+          "type": "string"
+        },
+        "callsite_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Callsite Refs",
+          "type": "array"
+        },
+        "parent_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parent Ref"
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
+        },
+        "issue_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Issue Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "abstraction",
+        "callsite_refs"
+      ],
+      "title": "ContextRecord",
+      "type": "object"
+    },
+    "DexDeclarationPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "dex_declaration",
+          "title": "Kind",
+          "type": "string"
+        },
+        "dex_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Dex Ref",
+          "type": "string"
+        },
+        "table": {
+          "enum": [
+            "class_def",
+            "method_id",
+            "field_id"
+          ],
+          "title": "Table",
+          "type": "string"
+        },
+        "index": {
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "dex_ref",
+        "table",
+        "index"
+      ],
+      "title": "DexDeclarationPosition",
+      "type": "object"
+    },
+    "DexRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "kind": {
+          "const": "dex",
+          "title": "Kind",
+          "type": "string"
+        },
+        "position": {
+          "$ref": "#/$defs/ArchivePosition"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size_bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "kind",
+        "position",
+        "sha256",
+        "size_bytes"
+      ],
+      "title": "DexRecord",
+      "type": "object"
+    },
+    "Endpoint": {
+      "additionalProperties": false,
+      "properties": {
+        "element_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Element Ref",
+          "type": "string"
+        },
+        "slot_kind": {
+          "enum": [
+            "element",
+            "receiver",
+            "argument",
+            "result",
+            "parameter",
+            "return",
+            "value",
+            "local",
+            "field",
+            "array_element",
+            "state",
+            "condition",
+            "entry"
+          ],
+          "title": "Slot Kind",
+          "type": "string"
+        },
+        "slot_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Index"
+        },
+        "slot_label": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Label"
+        },
+        "position_label": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Position Label"
+        }
+      },
+      "required": [
+        "element_ref",
+        "slot_kind"
+      ],
+      "title": "Endpoint",
+      "type": "object"
+    },
+    "FactConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "facts-config.v1",
+          "default": "facts-config.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "requested_capabilities": {
+          "items": {
+            "enum": [
+              "dex",
+              "manifest",
+              "resources",
+              "dex_jimple_mapping",
+              "data_flow",
+              "calls",
+              "objects",
+              "control",
+              "events"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Requested Capabilities",
+          "type": "array"
+        },
+        "options": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Options",
+          "type": "object"
+        }
+      },
+      "required": [
+        "requested_capabilities"
+      ],
+      "title": "FactConfig",
+      "type": "object"
+    },
+    "FieldRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "kind": {
+          "const": "field",
+          "title": "Kind",
+          "type": "string"
+        },
+        "position": {
+          "$ref": "#/$defs/DexDeclarationPosition"
+        },
+        "signature": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Signature",
+          "type": "string"
+        },
+        "is_definition": {
+          "title": "Is Definition",
+          "type": "boolean"
+        },
+        "class_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Class Ref"
+        },
+        "is_static": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Is Static"
+        },
+        "initial_value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ValueInfo"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "kind",
+        "position",
+        "signature",
+        "is_definition",
+        "is_static"
+      ],
+      "title": "FieldRecord",
+      "type": "object"
+    },
+    "InstructionPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "dex_instruction",
+          "title": "Kind",
+          "type": "string"
+        },
+        "dex_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Dex Ref",
+          "type": "string"
+        },
+        "method_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Method Ref",
+          "type": "string"
+        },
+        "offset_bytes": {
+          "minimum": 0,
+          "multipleOf": 2,
+          "title": "Offset Bytes",
+          "type": "integer"
+        },
+        "position_label": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Position Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "dex_ref",
+        "method_ref",
+        "offset_bytes",
+        "position_label"
+      ],
+      "title": "InstructionPosition",
+      "type": "object"
+    },
+    "InstructionRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "kind": {
+          "const": "instruction",
+          "title": "Kind",
+          "type": "string"
+        },
+        "position": {
+          "$ref": "#/$defs/InstructionPosition"
+        },
+        "opcode": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Opcode",
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "assignment",
+            "invoke",
+            "field_read",
+            "field_write",
+            "array_read",
+            "array_write",
+            "constant",
+            "branch",
+            "return",
+            "allocation",
+            "other"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "operands": {
+          "items": {
+            "$ref": "#/$defs/Operand"
+          },
+          "title": "Operands",
+          "type": "array"
+        },
+        "slots": {
+          "items": {
+            "$ref": "#/$defs/ProgramSlot"
+          },
+          "title": "Slots",
+          "type": "array"
+        },
+        "slots_complete": {
+          "title": "Slots Complete",
+          "type": "boolean"
+        },
+        "invoke_kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "static",
+                "direct",
+                "virtual",
+                "interface",
+                "super",
+                "custom",
+                "polymorphic"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invoke Kind"
+        },
+        "declared_target": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MethodTarget"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "kind",
+        "position",
+        "opcode",
+        "operation",
+        "operands",
+        "slots_complete"
+      ],
+      "title": "InstructionRecord",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "MethodRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "kind": {
+          "const": "method",
+          "title": "Kind",
+          "type": "string"
+        },
+        "position": {
+          "$ref": "#/$defs/DexDeclarationPosition"
+        },
+        "signature": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Signature",
+          "type": "string"
+        },
+        "is_definition": {
+          "title": "Is Definition",
+          "type": "boolean"
+        },
+        "class_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Class Ref"
+        },
+        "is_static": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Is Static"
+        },
+        "body_status": {
+          "enum": [
+            "available",
+            "abstract",
+            "native",
+            "external",
+            "unavailable"
+          ],
+          "title": "Body Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "kind",
+        "position",
+        "signature",
+        "is_definition",
+        "is_static",
+        "body_status"
+      ],
+      "title": "MethodRecord",
+      "type": "object"
+    },
+    "MethodTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "signature": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Signature"
+        },
+        "method_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Method Ref"
+        },
+        "unknown_reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unknown Reason"
+        }
+      },
+      "required": [
+        "signature"
+      ],
+      "title": "MethodTarget",
+      "type": "object"
+    },
+    "ModelPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "model",
+          "title": "Kind",
+          "type": "string"
+        },
+        "model_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Model Ref",
+          "type": "string"
+        },
+        "position_label": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Position Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "model_ref",
+        "position_label"
+      ],
+      "title": "ModelPosition",
+      "type": "object"
+    },
+    "Operand": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "register",
+            "literal",
+            "string",
+            "method",
+            "field",
+            "type",
+            "resource",
+            "branch",
+            "unknown"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/ValueInfo"
+        },
+        "reference_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Ref"
+        }
+      },
+      "required": [
+        "index",
+        "kind",
+        "value"
+      ],
+      "title": "Operand",
+      "type": "object"
+    },
+    "ParameterRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "kind": {
+          "const": "parameter",
+          "title": "Kind",
+          "type": "string"
+        },
+        "method_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Method Ref",
+          "type": "string"
+        },
+        "index": {
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "type_descriptor": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Type Descriptor",
+          "type": "string"
+        },
+        "register_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Register Index"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "kind",
+        "method_ref",
+        "index",
+        "type_descriptor"
+      ],
+      "title": "ParameterRecord",
+      "type": "object"
+    },
+    "ProgramSlot": {
+      "additionalProperties": false,
+      "properties": {
+        "slot_kind": {
+          "enum": [
+            "element",
+            "receiver",
+            "argument",
+            "result",
+            "parameter",
+            "return",
+            "value",
+            "local",
+            "field",
+            "array_element",
+            "state",
+            "condition",
+            "entry"
+          ],
+          "title": "Slot Kind",
+          "type": "string"
+        },
+        "slot_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Index"
+        },
+        "slot_label": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Label"
+        },
+        "value": {
+          "$ref": "#/$defs/ValueInfo"
+        },
+        "type_descriptor": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type Descriptor"
+        }
+      },
+      "required": [
+        "slot_kind",
+        "value"
+      ],
+      "title": "ProgramSlot",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "direct",
+            "static_analysis",
+            "model_assisted"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "tool_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Tool Ref",
+          "type": "string"
+        },
+        "support_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Support Refs",
+          "type": "array"
+        },
+        "rule_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Ref"
+        }
+      },
+      "required": [
+        "kind",
+        "tool_ref"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RelationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "relation_kind": {
+          "enum": [
+            "declared_call",
+            "candidate_call",
+            "data_dependency",
+            "argument_to_parameter",
+            "return_to_result",
+            "field_dependency",
+            "array_dependency",
+            "state_dependency",
+            "control_dependency",
+            "event_trigger",
+            "icc_target",
+            "icc_data",
+            "dex_jimple_mapping",
+            "resource_use",
+            "information_flow"
+          ],
+          "title": "Relation Kind",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Endpoint"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "context_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Context Ref"
+        },
+        "callsite_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Callsite Ref"
+        },
+        "binding_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Binding Refs",
+          "type": "array"
+        },
+        "condition_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Condition Refs",
+          "type": "array"
+        },
+        "resolution": {
+          "enum": [
+            "resolved",
+            "partial",
+            "unresolved"
+          ],
+          "title": "Resolution",
+          "type": "string"
+        },
+        "unresolved_reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unresolved Reason"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "relation_kind",
+        "source",
+        "target",
+        "resolution"
+      ],
+      "title": "RelationRecord",
+      "type": "object"
+    },
+    "ResourceRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "kind": {
+          "const": "resource",
+          "title": "Kind",
+          "type": "string"
+        },
+        "position": {
+          "$ref": "#/$defs/ArchivePosition"
+        },
+        "resource_id": {
+          "maximum": 4294967295,
+          "minimum": 0,
+          "title": "Resource Id",
+          "type": "integer"
+        },
+        "resource_type": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Resource Type",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "qualifiers": {
+          "default": "",
+          "title": "Qualifiers",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/ValueInfo"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "kind",
+        "position",
+        "resource_id",
+        "resource_type",
+        "name",
+        "value"
+      ],
+      "title": "ResourceRecord",
+      "type": "object"
+    },
+    "ToolVersion": {
+      "additionalProperties": false,
+      "properties": {
+        "tool_id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Tool Id",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tool_id",
+        "name",
+        "version"
+      ],
+      "title": "ToolVersion",
+      "type": "object"
+    },
+    "ValueInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "known",
+            "partial",
+            "unknown",
+            "not_applicable"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue",
+          "default": null
+        },
+        "source_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "ValueInfo",
+      "type": "object"
+    },
+    "VersionedArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "platform",
+            "rule",
+            "summary",
+            "framework_model"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Version",
+          "type": "string"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "kind",
+        "name",
+        "version"
+      ],
+      "title": "VersionedArtifact",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "program-facts.v1",
+      "default": "program-facts.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run": {
+      "$ref": "#/$defs/AnalysisRun"
+    },
+    "elements": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "analysis_node": "#/$defs/AnalysisNodeRecord",
+            "class": "#/$defs/ClassRecord",
+            "condition": "#/$defs/ConditionRecord",
+            "configuration": "#/$defs/ConfigurationRecord",
+            "dex": "#/$defs/DexRecord",
+            "field": "#/$defs/FieldRecord",
+            "instruction": "#/$defs/InstructionRecord",
+            "method": "#/$defs/MethodRecord",
+            "parameter": "#/$defs/ParameterRecord",
+            "resource": "#/$defs/ResourceRecord"
+          },
+          "propertyName": "kind"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/DexRecord"
+          },
+          {
+            "$ref": "#/$defs/ClassRecord"
+          },
+          {
+            "$ref": "#/$defs/MethodRecord"
+          },
+          {
+            "$ref": "#/$defs/ParameterRecord"
+          },
+          {
+            "$ref": "#/$defs/FieldRecord"
+          },
+          {
+            "$ref": "#/$defs/InstructionRecord"
+          },
+          {
+            "$ref": "#/$defs/ConfigurationRecord"
+          },
+          {
+            "$ref": "#/$defs/ResourceRecord"
+          },
+          {
+            "$ref": "#/$defs/AnalysisNodeRecord"
+          },
+          {
+            "$ref": "#/$defs/ConditionRecord"
+          }
+        ]
+      },
+      "title": "Elements",
+      "type": "array"
+    },
+    "relations": {
+      "items": {
+        "$ref": "#/$defs/RelationRecord"
+      },
+      "title": "Relations",
+      "type": "array"
+    },
+    "contexts": {
+      "items": {
+        "$ref": "#/$defs/ContextRecord"
+      },
+      "title": "Contexts",
+      "type": "array"
+    },
+    "bindings": {
+      "items": {
+        "$ref": "#/$defs/BindingRecord"
+      },
+      "title": "Bindings",
+      "type": "array"
+    },
+    "statuses": {
+      "items": {
+        "$ref": "#/$defs/AnalysisStatus"
+      },
+      "title": "Statuses",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run"
+  ],
+  "title": "FactBundle",
+  "type": "object"
+}

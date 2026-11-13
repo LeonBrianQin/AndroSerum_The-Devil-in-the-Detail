@@ -1,0 +1,147 @@
+{
+  "$defs": {
+    "HeapConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "heap-flow-config.v1",
+          "default": "heap-flow-config.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "scope": {
+          "const": "method_local_allocation_storage",
+          "default": "method_local_allocation_storage",
+          "title": "Scope",
+          "type": "string"
+        },
+        "call_effect": {
+          "const": "unknown_on_normal_and_exceptional_exit",
+          "default": "unknown_on_normal_and_exceptional_exit",
+          "title": "Call Effect",
+          "type": "string"
+        },
+        "max_locations": {
+          "default": 10000,
+          "maximum": 100000,
+          "minimum": 1,
+          "title": "Max Locations",
+          "type": "integer"
+        },
+        "max_worklist_visits": {
+          "default": 100000,
+          "maximum": 10000000,
+          "minimum": 1,
+          "title": "Max Worklist Visits",
+          "type": "integer"
+        },
+        "max_origin_visits": {
+          "default": 500000,
+          "maximum": 10000000,
+          "minimum": 1,
+          "title": "Max Origin Visits",
+          "type": "integer"
+        },
+        "max_witness_visits": {
+          "default": 2000000,
+          "maximum": 100000000,
+          "minimum": 1,
+          "title": "Max Witness Visits",
+          "type": "integer"
+        }
+      },
+      "title": "HeapConfig",
+      "type": "object"
+    },
+    "LocalFlowConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "local-flow-config.v1",
+          "default": "local-flow-config.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "exception_policy": {
+          "default": "soot_direct_pre_state",
+          "enum": [
+            "soot_direct_pre_state",
+            "normal_only"
+          ],
+          "title": "Exception Policy",
+          "type": "string"
+        },
+        "max_worklist_visits": {
+          "default": 100000,
+          "maximum": 10000000,
+          "minimum": 1,
+          "title": "Max Worklist Visits",
+          "type": "integer"
+        },
+        "max_cfg_edges": {
+          "default": 200000,
+          "maximum": 10000000,
+          "minimum": 1,
+          "title": "Max Cfg Edges",
+          "type": "integer"
+        },
+        "max_witness_visits": {
+          "default": 2000000,
+          "maximum": 100000000,
+          "minimum": 1,
+          "title": "Max Witness Visits",
+          "type": "integer"
+        }
+      },
+      "title": "LocalFlowConfig",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "context-heap-config.v1",
+      "default": "context-heap-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "root_signatures": {
+      "items": {
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Root Signatures",
+      "type": "array"
+    },
+    "max_depth": {
+      "default": 4,
+      "maximum": 16,
+      "minimum": 1,
+      "title": "Max Depth",
+      "type": "integer"
+    },
+    "max_nodes": {
+      "default": 5000,
+      "maximum": 50000,
+      "minimum": 1,
+      "title": "Max Nodes",
+      "type": "integer"
+    },
+    "max_frames": {
+      "default": 256,
+      "maximum": 4096,
+      "minimum": 1,
+      "title": "Max Frames",
+      "type": "integer"
+    },
+    "scalar": {
+      "$ref": "#/$defs/LocalFlowConfig"
+    },
+    "heap": {
+      "$ref": "#/$defs/HeapConfig"
+    }
+  },
+  "title": "ContextHeapConfig",
+  "type": "object"
+}

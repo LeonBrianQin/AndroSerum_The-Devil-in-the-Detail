@@ -1,0 +1,40 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "behavior-match-config.v1",
+      "default": "behavior-match-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "max_pair_attempts": {
+      "default": 2,
+      "maximum": 4,
+      "minimum": 1,
+      "title": "Max Pair Attempts",
+      "type": "integer"
+    },
+    "max_response_chars": {
+      "default": 120000,
+      "maximum": 500000,
+      "minimum": 1000,
+      "title": "Max Response Chars",
+      "type": "integer"
+    },
+    "max_request_chars": {
+      "default": 1000000,
+      "maximum": 5000000,
+      "minimum": 10000,
+      "title": "Max Request Chars",
+      "type": "integer"
+    },
+    "provider": {
+      "const": "fixed_responses_only",
+      "default": "fixed_responses_only",
+      "title": "Provider",
+      "type": "string"
+    }
+  },
+  "title": "MatchConfig",
+  "type": "object"
+}

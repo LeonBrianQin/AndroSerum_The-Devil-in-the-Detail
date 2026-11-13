@@ -1,0 +1,86 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "java-config.v1",
+      "default": "java-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "platform_api": {
+      "anyOf": [
+        {
+          "maximum": 1000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Platform Api"
+    },
+    "fallback_api": {
+      "anyOf": [
+        {
+          "maximum": 1000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": 16,
+      "title": "Fallback Api"
+    },
+    "timeout_seconds": {
+      "default": 120,
+      "exclusiveMinimum": 0,
+      "maximum": 3600,
+      "title": "Timeout Seconds",
+      "type": "number"
+    },
+    "heap_mb": {
+      "default": 2048,
+      "maximum": 16384,
+      "minimum": 128,
+      "title": "Heap Mb",
+      "type": "integer"
+    },
+    "max_methods": {
+      "default": 100000,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Max Methods",
+      "type": "integer"
+    },
+    "max_units_per_method": {
+      "default": 1000000,
+      "maximum": 10000000,
+      "minimum": 1,
+      "title": "Max Units Per Method",
+      "type": "integer"
+    },
+    "max_method_file_bytes": {
+      "default": 33554432,
+      "minimum": 1,
+      "title": "Max Method File Bytes",
+      "type": "integer"
+    },
+    "max_output_bytes": {
+      "default": 268435456,
+      "minimum": 1,
+      "title": "Max Output Bytes",
+      "type": "integer"
+    },
+    "export_cfg": {
+      "default": false,
+      "title": "Export Cfg",
+      "type": "boolean"
+    }
+  },
+  "title": "JavaConfig",
+  "type": "object"
+}

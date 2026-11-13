@@ -1,0 +1,621 @@
+{
+  "$defs": {
+    "Endpoint": {
+      "additionalProperties": false,
+      "properties": {
+        "element_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Element Ref",
+          "type": "string"
+        },
+        "slot_kind": {
+          "enum": [
+            "element",
+            "receiver",
+            "argument",
+            "result",
+            "parameter",
+            "return",
+            "value",
+            "local",
+            "field",
+            "array_element",
+            "state",
+            "condition",
+            "entry"
+          ],
+          "title": "Slot Kind",
+          "type": "string"
+        },
+        "slot_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Index"
+        },
+        "slot_label": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Label"
+        },
+        "position_label": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Position Label"
+        }
+      },
+      "required": [
+        "element_ref",
+        "slot_kind"
+      ],
+      "title": "Endpoint",
+      "type": "object"
+    },
+    "FlowLink": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "reaching_definition",
+            "value_copy",
+            "expression_input",
+            "argument_input",
+            "receiver_input"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "target": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "local_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Index"
+        },
+        "witness": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Witness",
+          "type": "array"
+        },
+        "alternatives": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Alternatives",
+          "type": "array"
+        },
+        "resolution": {
+          "default": "resolved",
+          "enum": [
+            "resolved",
+            "partial"
+          ],
+          "title": "Resolution",
+          "type": "string"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "requires_normal_completion": {
+          "default": true,
+          "title": "Requires Normal Completion",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "source",
+        "target"
+      ],
+      "title": "FlowLink",
+      "type": "object"
+    },
+    "FlowRoot": {
+      "additionalProperties": false,
+      "properties": {
+        "endpoint": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "kind": {
+          "enum": [
+            "parameter",
+            "receiver",
+            "caught_exception",
+            "constant",
+            "call_result",
+            "heap_read",
+            "allocation",
+            "undefined_local",
+            "unsupported_expression",
+            "incomplete_operand",
+            "opaque_result"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "details": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Details",
+          "type": "object"
+        }
+      },
+      "required": [
+        "endpoint",
+        "kind"
+      ],
+      "title": "FlowRoot",
+      "type": "object"
+    },
+    "IRValue": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "type_descriptor": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Type Descriptor"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "local_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Local Index"
+        },
+        "parameter_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parameter Index"
+        },
+        "identity_kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "this",
+                "parameter",
+                "caught_exception"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Identity Kind"
+        },
+        "base": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "index_value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "constant_kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "int",
+                "long",
+                "float_bits",
+                "double_bits",
+                "string",
+                "utf16_units",
+                "null",
+                "class"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Constant Kind"
+        },
+        "constant": {
+          "$ref": "#/$defs/JsonValue"
+        },
+        "field_signature": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Field Signature"
+        },
+        "children": {
+          "items": {
+            "$ref": "#/$defs/IRValue"
+          },
+          "title": "Children",
+          "type": "array"
+        },
+        "truncated": {
+          "title": "Truncated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "type_descriptor",
+        "text",
+        "local_index",
+        "constant_kind",
+        "constant",
+        "field_signature",
+        "children",
+        "truncated"
+      ],
+      "title": "IRValue",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "LocalFlowConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "local-flow-config.v1",
+          "default": "local-flow-config.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "exception_policy": {
+          "default": "soot_direct_pre_state",
+          "enum": [
+            "soot_direct_pre_state",
+            "normal_only"
+          ],
+          "title": "Exception Policy",
+          "type": "string"
+        },
+        "max_worklist_visits": {
+          "default": 100000,
+          "maximum": 10000000,
+          "minimum": 1,
+          "title": "Max Worklist Visits",
+          "type": "integer"
+        },
+        "max_cfg_edges": {
+          "default": 200000,
+          "maximum": 10000000,
+          "minimum": 1,
+          "title": "Max Cfg Edges",
+          "type": "integer"
+        },
+        "max_witness_visits": {
+          "default": 2000000,
+          "maximum": 100000000,
+          "minimum": 1,
+          "title": "Max Witness Visits",
+          "type": "integer"
+        }
+      },
+      "title": "LocalFlowConfig",
+      "type": "object"
+    },
+    "OperandNode": {
+      "additionalProperties": false,
+      "properties": {
+        "node_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Node Ref",
+          "type": "string"
+        },
+        "unit": {
+          "minimum": 0,
+          "title": "Unit",
+          "type": "integer"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/IRValue"
+        }
+      },
+      "required": [
+        "node_ref",
+        "unit",
+        "role",
+        "value"
+      ],
+      "title": "OperandNode",
+      "type": "object"
+    },
+    "ReachingUse": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "minimum": 0,
+          "title": "Unit",
+          "type": "integer"
+        },
+        "local_index": {
+          "minimum": 0,
+          "title": "Local Index",
+          "type": "integer"
+        },
+        "definitions": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Definitions",
+          "type": "array"
+        },
+        "undefined": {
+          "title": "Undefined",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "unit",
+        "local_index",
+        "definitions",
+        "undefined"
+      ],
+      "title": "ReachingUse",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "local-flow-method.v1",
+      "default": "local-flow-method.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scope": {
+      "const": "method_scalar_locals",
+      "default": "method_scalar_locals",
+      "title": "Scope",
+      "type": "string"
+    },
+    "method_ref": {
+      "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+      "title": "Method Ref",
+      "type": "string"
+    },
+    "method_signature": {
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Method Signature",
+      "type": "string"
+    },
+    "ir_entry": {
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Ir Entry",
+      "type": "string"
+    },
+    "ir_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Ir Sha256",
+      "type": "string"
+    },
+    "cfg_entry": {
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Cfg Entry",
+      "type": "string"
+    },
+    "cfg_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Cfg Sha256",
+      "type": "string"
+    },
+    "node_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+        "type": "string"
+      },
+      "title": "Node Refs",
+      "type": "array"
+    },
+    "configuration": {
+      "$ref": "#/$defs/LocalFlowConfig"
+    },
+    "state": {
+      "enum": [
+        "complete",
+        "truncated",
+        "unavailable"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    },
+    "visits": {
+      "minimum": 0,
+      "title": "Visits",
+      "type": "integer"
+    },
+    "reachable": {
+      "items": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "title": "Reachable",
+      "type": "array"
+    },
+    "pending_units": {
+      "items": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "title": "Pending Units",
+      "type": "array"
+    },
+    "uses": {
+      "items": {
+        "$ref": "#/$defs/ReachingUse"
+      },
+      "title": "Uses",
+      "type": "array"
+    },
+    "links": {
+      "items": {
+        "$ref": "#/$defs/FlowLink"
+      },
+      "title": "Links",
+      "type": "array"
+    },
+    "roots": {
+      "items": {
+        "$ref": "#/$defs/FlowRoot"
+      },
+      "title": "Roots",
+      "type": "array"
+    },
+    "operand_nodes": {
+      "items": {
+        "$ref": "#/$defs/OperandNode"
+      },
+      "title": "Operand Nodes",
+      "type": "array"
+    },
+    "path_feasibility_checked": {
+      "const": false,
+      "default": false,
+      "title": "Path Feasibility Checked",
+      "type": "boolean"
+    },
+    "heap_and_callee_resolved": {
+      "const": false,
+      "default": false,
+      "title": "Heap And Callee Resolved",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "method_ref",
+    "method_signature",
+    "ir_entry",
+    "ir_sha256",
+    "cfg_entry",
+    "cfg_sha256",
+    "node_refs",
+    "configuration",
+    "state",
+    "reason",
+    "visits",
+    "reachable",
+    "pending_units",
+    "uses",
+    "links",
+    "roots",
+    "operand_nodes"
+  ],
+  "title": "MethodFlow",
+  "type": "object"
+}

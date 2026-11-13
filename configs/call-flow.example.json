@@ -1,0 +1,8 @@
+{
+  "schema_version": "call-flow-config.v1",
+  "dispatch": "application_cha",
+  "context_policy": "balanced_stack_no_merge",
+  "max_calls": 100000,
+  "max_candidates_per_call": 128,
+  "max_trace_depth": 8
+}

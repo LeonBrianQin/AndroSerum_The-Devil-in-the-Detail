@@ -1,0 +1,22 @@
+{
+  "schema_version": "selected-summary-flow-config.v3",
+  "platform_api": 28,
+  "sources": [
+    "Landroid/telephony/TelephonyManager;->getDeviceId()Ljava/lang/String;",
+    "Landroid/telephony/TelephonyManager;->getSubscriberId()Ljava/lang/String;"
+  ],
+  "sinks": [
+    "Ljava/net/URL;-><init>(Ljava/lang/String;)V",
+    "Landroid/webkit/WebView;->loadUrl(Ljava/lang/String;)V"
+  ],
+  "callbacks": true,
+  "timeout_seconds": 180,
+  "solver_timeout": 90,
+  "heap_mb": 2048,
+  "taint_wrapper": "flowdroid_summary",
+  "implicit_flows": "disabled",
+  "summary_resource_id": "flowdroid-summaries:2.15.1:summariesManual",
+  "summary_max_events": 4000,
+  "entry_scope": "android_model",
+  "entry_methods": []
+}

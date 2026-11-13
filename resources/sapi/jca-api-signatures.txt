@@ -1,0 +1,203 @@
+Compiled from "MessageDigest.java"
+public abstract class java.security.MessageDigest extends java.security.MessageDigestSpi {
+  protected java.security.MessageDigest(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public static java.security.MessageDigest getInstance(java.lang.String) throws java.security.NoSuchAlgorithmException;
+    descriptor: (Ljava/lang/String;)Ljava/security/MessageDigest;
+
+  public static java.security.MessageDigest getInstance(java.lang.String, java.lang.String) throws java.security.NoSuchAlgorithmException, java.security.NoSuchProviderException;
+    descriptor: (Ljava/lang/String;Ljava/lang/String;)Ljava/security/MessageDigest;
+
+  public static java.security.MessageDigest getInstance(java.lang.String, java.security.Provider) throws java.security.NoSuchAlgorithmException;
+    descriptor: (Ljava/lang/String;Ljava/security/Provider;)Ljava/security/MessageDigest;
+
+  public final java.security.Provider getProvider();
+    descriptor: ()Ljava/security/Provider;
+
+  public void update(byte);
+    descriptor: (B)V
+
+  public void update(byte[], int, int);
+    descriptor: ([BII)V
+
+  public void update(byte[]);
+    descriptor: ([B)V
+
+  public final void update(java.nio.ByteBuffer);
+    descriptor: (Ljava/nio/ByteBuffer;)V
+
+  public byte[] digest();
+    descriptor: ()[B
+
+  public int digest(byte[], int, int) throws java.security.DigestException;
+    descriptor: ([BII)I
+
+  public byte[] digest(byte[]);
+    descriptor: ([B)[B
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public static boolean isEqual(byte[], byte[]);
+    descriptor: ([B[B)Z
+
+  public void reset();
+    descriptor: ()V
+
+  public final java.lang.String getAlgorithm();
+    descriptor: ()Ljava/lang/String;
+
+  public final int getDigestLength();
+    descriptor: ()I
+
+  public java.lang.Object clone() throws java.lang.CloneNotSupportedException;
+    descriptor: ()Ljava/lang/Object;
+
+  static {};
+    descriptor: ()V
+}
+
+Compiled from "Cipher.java"
+public class javax.crypto.Cipher {
+  public static final int ENCRYPT_MODE;
+    descriptor: I
+  public static final int DECRYPT_MODE;
+    descriptor: I
+  public static final int WRAP_MODE;
+    descriptor: I
+  public static final int UNWRAP_MODE;
+    descriptor: I
+  public static final int PUBLIC_KEY;
+    descriptor: I
+  public static final int PRIVATE_KEY;
+    descriptor: I
+  public static final int SECRET_KEY;
+    descriptor: I
+  protected javax.crypto.Cipher(javax.crypto.CipherSpi, java.security.Provider, java.lang.String);
+    descriptor: (Ljavax/crypto/CipherSpi;Ljava/security/Provider;Ljava/lang/String;)V
+
+  javax.crypto.Cipher(javax.crypto.CipherSpi, java.lang.String);
+    descriptor: (Ljavax/crypto/CipherSpi;Ljava/lang/String;)V
+
+  public static final javax.crypto.Cipher getInstance(java.lang.String) throws java.security.NoSuchAlgorithmException, javax.crypto.NoSuchPaddingException;
+    descriptor: (Ljava/lang/String;)Ljavax/crypto/Cipher;
+
+  public static final javax.crypto.Cipher getInstance(java.lang.String, java.lang.String) throws java.security.NoSuchAlgorithmException, java.security.NoSuchProviderException, javax.crypto.NoSuchPaddingException;
+    descriptor: (Ljava/lang/String;Ljava/lang/String;)Ljavax/crypto/Cipher;
+
+  public static final javax.crypto.Cipher getInstance(java.lang.String, java.security.Provider) throws java.security.NoSuchAlgorithmException, javax.crypto.NoSuchPaddingException;
+    descriptor: (Ljava/lang/String;Ljava/security/Provider;)Ljavax/crypto/Cipher;
+
+  void chooseFirstProvider();
+    descriptor: ()V
+
+  public final java.security.Provider getProvider();
+    descriptor: ()Ljava/security/Provider;
+
+  public final java.lang.String getAlgorithm();
+    descriptor: ()Ljava/lang/String;
+
+  public final int getBlockSize();
+    descriptor: ()I
+
+  public final int getOutputSize(int);
+    descriptor: (I)I
+
+  public final byte[] getIV();
+    descriptor: ()[B
+
+  public final java.security.AlgorithmParameters getParameters();
+    descriptor: ()Ljava/security/AlgorithmParameters;
+
+  public final javax.crypto.ExemptionMechanism getExemptionMechanism();
+    descriptor: ()Ljavax/crypto/ExemptionMechanism;
+
+  public final void init(int, java.security.Key) throws java.security.InvalidKeyException;
+    descriptor: (ILjava/security/Key;)V
+
+  public final void init(int, java.security.Key, java.security.SecureRandom) throws java.security.InvalidKeyException;
+    descriptor: (ILjava/security/Key;Ljava/security/SecureRandom;)V
+
+  public final void init(int, java.security.Key, java.security.spec.AlgorithmParameterSpec) throws java.security.InvalidKeyException, java.security.InvalidAlgorithmParameterException;
+    descriptor: (ILjava/security/Key;Ljava/security/spec/AlgorithmParameterSpec;)V
+
+  public final void init(int, java.security.Key, java.security.spec.AlgorithmParameterSpec, java.security.SecureRandom) throws java.security.InvalidKeyException, java.security.InvalidAlgorithmParameterException;
+    descriptor: (ILjava/security/Key;Ljava/security/spec/AlgorithmParameterSpec;Ljava/security/SecureRandom;)V
+
+  public final void init(int, java.security.Key, java.security.AlgorithmParameters) throws java.security.InvalidKeyException, java.security.InvalidAlgorithmParameterException;
+    descriptor: (ILjava/security/Key;Ljava/security/AlgorithmParameters;)V
+
+  public final void init(int, java.security.Key, java.security.AlgorithmParameters, java.security.SecureRandom) throws java.security.InvalidKeyException, java.security.InvalidAlgorithmParameterException;
+    descriptor: (ILjava/security/Key;Ljava/security/AlgorithmParameters;Ljava/security/SecureRandom;)V
+
+  public final void init(int, java.security.cert.Certificate) throws java.security.InvalidKeyException;
+    descriptor: (ILjava/security/cert/Certificate;)V
+
+  public final void init(int, java.security.cert.Certificate, java.security.SecureRandom) throws java.security.InvalidKeyException;
+    descriptor: (ILjava/security/cert/Certificate;Ljava/security/SecureRandom;)V
+
+  public final byte[] update(byte[]);
+    descriptor: ([B)[B
+
+  public final byte[] update(byte[], int, int);
+    descriptor: ([BII)[B
+
+  public final int update(byte[], int, int, byte[]) throws javax.crypto.ShortBufferException;
+    descriptor: ([BII[B)I
+
+  public final int update(byte[], int, int, byte[], int) throws javax.crypto.ShortBufferException;
+    descriptor: ([BII[BI)I
+
+  public final int update(java.nio.ByteBuffer, java.nio.ByteBuffer) throws javax.crypto.ShortBufferException;
+    descriptor: (Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I
+
+  public final byte[] doFinal() throws javax.crypto.IllegalBlockSizeException, javax.crypto.BadPaddingException;
+    descriptor: ()[B
+
+  public final int doFinal(byte[], int) throws javax.crypto.IllegalBlockSizeException, javax.crypto.ShortBufferException, javax.crypto.BadPaddingException;
+    descriptor: ([BI)I
+
+  public final byte[] doFinal(byte[]) throws javax.crypto.IllegalBlockSizeException, javax.crypto.BadPaddingException;
+    descriptor: ([B)[B
+
+  public final byte[] doFinal(byte[], int, int) throws javax.crypto.IllegalBlockSizeException, javax.crypto.BadPaddingException;
+    descriptor: ([BII)[B
+
+  public final int doFinal(byte[], int, int, byte[]) throws javax.crypto.ShortBufferException, javax.crypto.IllegalBlockSizeException, javax.crypto.BadPaddingException;
+    descriptor: ([BII[B)I
+
+  public final int doFinal(byte[], int, int, byte[], int) throws javax.crypto.ShortBufferException, javax.crypto.IllegalBlockSizeException, javax.crypto.BadPaddingException;
+    descriptor: ([BII[BI)I
+
+  public final int doFinal(java.nio.ByteBuffer, java.nio.ByteBuffer) throws javax.crypto.ShortBufferException, javax.crypto.IllegalBlockSizeException, javax.crypto.BadPaddingException;
+    descriptor: (Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I
+
+  public final byte[] wrap(java.security.Key) throws javax.crypto.IllegalBlockSizeException, java.security.InvalidKeyException;
+    descriptor: (Ljava/security/Key;)[B
+
+  public final java.security.Key unwrap(byte[], java.lang.String, int) throws java.security.InvalidKeyException, java.security.NoSuchAlgorithmException;
+    descriptor: ([BLjava/lang/String;I)Ljava/security/Key;
+
+  public static final int getMaxAllowedKeyLength(java.lang.String) throws java.security.NoSuchAlgorithmException;
+    descriptor: (Ljava/lang/String;)I
+
+  public static final java.security.spec.AlgorithmParameterSpec getMaxAllowedParameterSpec(java.lang.String) throws java.security.NoSuchAlgorithmException;
+    descriptor: (Ljava/lang/String;)Ljava/security/spec/AlgorithmParameterSpec;
+
+  public final void updateAAD(byte[]);
+    descriptor: ([B)V
+
+  public final void updateAAD(byte[], int, int);
+    descriptor: ([BII)V
+
+  public final void updateAAD(java.nio.ByteBuffer);
+    descriptor: (Ljava/nio/ByteBuffer;)V
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  static {};
+    descriptor: ()V
+}
+

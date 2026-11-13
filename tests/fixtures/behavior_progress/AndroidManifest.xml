@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.androserum.behaviorprogress">
+  <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="28"/>
+  <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+  <application android:label="Static behavior acceptance">
+    <activity android:name=".Cases" android:exported="false"/>
+  </application>
+</manifest>

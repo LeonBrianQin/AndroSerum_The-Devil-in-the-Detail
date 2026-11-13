@@ -1,0 +1,111 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "mining-config.v1",
+      "default": "mining-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "max_bu": {
+      "default": 4,
+      "maximum": 256,
+      "minimum": 1,
+      "title": "Max Bu",
+      "type": "integer"
+    },
+    "max_chunks": {
+      "default": 24,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Max Chunks",
+      "type": "integer"
+    },
+    "max_request_chars": {
+      "default": 100000,
+      "maximum": 1000000,
+      "minimum": 4000,
+      "title": "Max Request Chars",
+      "type": "integer"
+    },
+    "max_chunk_chars": {
+      "default": 28000,
+      "maximum": 500000,
+      "minimum": 2000,
+      "title": "Max Chunk Chars",
+      "type": "integer"
+    },
+    "max_ledger_context_chars": {
+      "default": 20000,
+      "maximum": 500000,
+      "minimum": 0,
+      "title": "Max Ledger Context Chars",
+      "type": "integer"
+    },
+    "max_model_calls": {
+      "default": 32,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Max Model Calls",
+      "type": "integer"
+    },
+    "max_repairs_per_chunk": {
+      "default": 1,
+      "maximum": 8,
+      "minimum": 0,
+      "title": "Max Repairs Per Chunk",
+      "type": "integer"
+    },
+    "max_supplement_rounds": {
+      "default": 1,
+      "maximum": 16,
+      "minimum": 0,
+      "title": "Max Supplement Rounds",
+      "type": "integer"
+    },
+    "max_supplement_records": {
+      "default": 8,
+      "maximum": 1000,
+      "minimum": 0,
+      "title": "Max Supplement Records",
+      "type": "integer"
+    },
+    "max_response_chars": {
+      "default": 60000,
+      "maximum": 1000000,
+      "minimum": 1000,
+      "title": "Max Response Chars",
+      "type": "integer"
+    },
+    "model_timeout_seconds": {
+      "default": 180,
+      "maximum": 1800,
+      "minimum": 1,
+      "title": "Model Timeout Seconds",
+      "type": "integer"
+    },
+    "max_actions": {
+      "default": 256,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Max Actions",
+      "type": "integer"
+    },
+    "max_bcs": {
+      "default": 128,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Max Bcs",
+      "type": "integer"
+    },
+    "max_queries_per_proposal": {
+      "default": 4,
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Max Queries Per Proposal",
+      "type": "integer"
+    }
+  },
+  "title": "MiningConfig",
+  "type": "object"
+}

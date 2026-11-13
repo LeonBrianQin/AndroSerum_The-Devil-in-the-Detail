@@ -1,0 +1,1 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.androserum.contextroots"><uses-sdk android:minSdkVersion="16" android:targetSdkVersion="28"/><application android:label="Inert root coverage fixture"/></manifest>

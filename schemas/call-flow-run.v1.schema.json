@@ -1,0 +1,883 @@
+{
+  "$defs": {
+    "AnalysisNodeRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "kind": {
+          "const": "analysis_node",
+          "title": "Kind",
+          "type": "string"
+        },
+        "position": {
+          "discriminator": {
+            "mapping": {
+              "analysis": "#/$defs/AnalysisPosition",
+              "model": "#/$defs/ModelPosition"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/AnalysisPosition"
+            },
+            {
+              "$ref": "#/$defs/ModelPosition"
+            }
+          ],
+          "title": "Position"
+        },
+        "node_kind": {
+          "enum": [
+            "jimple",
+            "cfg",
+            "object",
+            "state",
+            "entry",
+            "event",
+            "mapping"
+          ],
+          "title": "Node Kind",
+          "type": "string"
+        },
+        "method_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Method Ref"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "slots": {
+          "items": {
+            "$ref": "#/$defs/ProgramSlot"
+          },
+          "title": "Slots",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "kind",
+        "position",
+        "node_kind"
+      ],
+      "title": "AnalysisNodeRecord",
+      "type": "object"
+    },
+    "AnalysisPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "analysis",
+          "title": "Kind",
+          "type": "string"
+        },
+        "artifact_path": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Artifact Path",
+          "type": "string"
+        },
+        "position_label": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Position Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "artifact_path",
+        "position_label"
+      ],
+      "title": "AnalysisPosition",
+      "type": "object"
+    },
+    "CallConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "call-flow-config.v1",
+          "default": "call-flow-config.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "dispatch": {
+          "const": "application_cha",
+          "default": "application_cha",
+          "title": "Dispatch",
+          "type": "string"
+        },
+        "context_policy": {
+          "const": "balanced_stack_no_merge",
+          "default": "balanced_stack_no_merge",
+          "title": "Context Policy",
+          "type": "string"
+        },
+        "max_calls": {
+          "default": 100000,
+          "maximum": 1000000,
+          "minimum": 1,
+          "title": "Max Calls",
+          "type": "integer"
+        },
+        "max_candidates_per_call": {
+          "default": 128,
+          "maximum": 10000,
+          "minimum": 1,
+          "title": "Max Candidates Per Call",
+          "type": "integer"
+        },
+        "max_trace_depth": {
+          "default": 8,
+          "maximum": 128,
+          "minimum": 1,
+          "title": "Max Trace Depth",
+          "type": "integer"
+        }
+      },
+      "title": "CallConfig",
+      "type": "object"
+    },
+    "CallLink": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": [
+            "candidate",
+            "argument_bridge",
+            "result_bridge",
+            "receiver_bridge",
+            "formal_input",
+            "receiver_binding",
+            "argument_binding",
+            "normal_return_operand",
+            "normal_return_binding"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "relation_kind": {
+          "enum": [
+            "candidate_call",
+            "data_dependency",
+            "argument_to_parameter",
+            "return_to_result"
+          ],
+          "title": "Relation Kind",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "target": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "support_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Support Refs",
+          "type": "array"
+        },
+        "callsite_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Callsite Ref"
+        },
+        "context_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Context Ref"
+        },
+        "binding_kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "object",
+                "value"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Binding Kind"
+        },
+        "resolution": {
+          "default": "resolved",
+          "enum": [
+            "resolved",
+            "partial"
+          ],
+          "title": "Resolution",
+          "type": "string"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "normal_return_only": {
+          "default": false,
+          "title": "Normal Return Only",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "role",
+        "relation_kind",
+        "source",
+        "target",
+        "support_refs"
+      ],
+      "title": "CallLink",
+      "type": "object"
+    },
+    "CallSite": {
+      "additionalProperties": false,
+      "properties": {
+        "caller_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Caller Ref",
+          "type": "string"
+        },
+        "unit_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Unit Ref",
+          "type": "string"
+        },
+        "unit": {
+          "minimum": 0,
+          "title": "Unit",
+          "type": "integer"
+        },
+        "declared_signature": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Declared Signature",
+          "type": "string"
+        },
+        "invoke_kind": {
+          "enum": [
+            "static",
+            "special",
+            "virtual",
+            "interface",
+            "dynamic"
+          ],
+          "title": "Invoke Kind",
+          "type": "string"
+        },
+        "callsite_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Callsite Ref"
+        },
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/Candidate"
+          },
+          "title": "Candidates",
+          "type": "array"
+        },
+        "state": {
+          "enum": [
+            "complete",
+            "partial",
+            "unavailable",
+            "truncated"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        }
+      },
+      "required": [
+        "caller_ref",
+        "unit_ref",
+        "unit",
+        "declared_signature",
+        "invoke_kind",
+        "callsite_ref",
+        "candidates",
+        "state",
+        "reason"
+      ],
+      "title": "CallSite",
+      "type": "object"
+    },
+    "Candidate": {
+      "additionalProperties": false,
+      "properties": {
+        "method_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Method Ref",
+          "type": "string"
+        },
+        "signature": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Signature",
+          "type": "string"
+        },
+        "context_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Context Ref",
+          "type": "string"
+        },
+        "rule": {
+          "enum": [
+            "exact_static",
+            "exact_special",
+            "application_cha"
+          ],
+          "title": "Rule",
+          "type": "string"
+        },
+        "body_available": {
+          "title": "Body Available",
+          "type": "boolean"
+        },
+        "normal_return_units": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Normal Return Units",
+          "type": "array"
+        },
+        "escaping_exception_units": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Escaping Exception Units",
+          "type": "array"
+        },
+        "cross_method_exception_objects_resolved": {
+          "const": false,
+          "default": false,
+          "title": "Cross Method Exception Objects Resolved",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "method_ref",
+        "signature",
+        "context_ref",
+        "rule",
+        "body_available",
+        "normal_return_units",
+        "escaping_exception_units"
+      ],
+      "title": "Candidate",
+      "type": "object"
+    },
+    "Endpoint": {
+      "additionalProperties": false,
+      "properties": {
+        "element_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Element Ref",
+          "type": "string"
+        },
+        "slot_kind": {
+          "enum": [
+            "element",
+            "receiver",
+            "argument",
+            "result",
+            "parameter",
+            "return",
+            "value",
+            "local",
+            "field",
+            "array_element",
+            "state",
+            "condition",
+            "entry"
+          ],
+          "title": "Slot Kind",
+          "type": "string"
+        },
+        "slot_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Index"
+        },
+        "slot_label": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Label"
+        },
+        "position_label": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Position Label"
+        }
+      },
+      "required": [
+        "element_ref",
+        "slot_kind"
+      ],
+      "title": "Endpoint",
+      "type": "object"
+    },
+    "FlowRoot": {
+      "additionalProperties": false,
+      "properties": {
+        "endpoint": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "kind": {
+          "enum": [
+            "parameter",
+            "receiver",
+            "caught_exception",
+            "constant",
+            "call_result",
+            "heap_read",
+            "allocation",
+            "undefined_local",
+            "unsupported_expression",
+            "incomplete_operand",
+            "opaque_result"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "details": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Details",
+          "type": "object"
+        }
+      },
+      "required": [
+        "endpoint",
+        "kind"
+      ],
+      "title": "FlowRoot",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "ModelPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "model",
+          "title": "Kind",
+          "type": "string"
+        },
+        "model_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Model Ref",
+          "type": "string"
+        },
+        "position_label": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Position Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "model_ref",
+        "position_label"
+      ],
+      "title": "ModelPosition",
+      "type": "object"
+    },
+    "ProgramSlot": {
+      "additionalProperties": false,
+      "properties": {
+        "slot_kind": {
+          "enum": [
+            "element",
+            "receiver",
+            "argument",
+            "result",
+            "parameter",
+            "return",
+            "value",
+            "local",
+            "field",
+            "array_element",
+            "state",
+            "condition",
+            "entry"
+          ],
+          "title": "Slot Kind",
+          "type": "string"
+        },
+        "slot_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Index"
+        },
+        "slot_label": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Label"
+        },
+        "value": {
+          "$ref": "#/$defs/ValueInfo"
+        },
+        "type_descriptor": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type Descriptor"
+        },
+        "registers": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Registers",
+          "type": "array"
+        }
+      },
+      "required": [
+        "slot_kind",
+        "value"
+      ],
+      "title": "ProgramSlot",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "direct",
+            "static_analysis",
+            "model_assisted"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "tool_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Tool Ref",
+          "type": "string"
+        },
+        "support_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Support Refs",
+          "type": "array"
+        },
+        "rule_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Ref"
+        }
+      },
+      "required": [
+        "kind",
+        "tool_ref"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "ValueInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "known",
+            "partial",
+            "unknown",
+            "not_applicable"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue",
+          "default": null
+        },
+        "source_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "ValueInfo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "call-flow-run.v1",
+      "default": "call-flow-run.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "configuration": {
+      "$ref": "#/$defs/CallConfig"
+    },
+    "input_flow_sha256": {
+      "patternProperties": {
+        "\\S": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "propertyNames": {
+        "minLength": 1
+      },
+      "title": "Input Flow Sha256",
+      "type": "object"
+    },
+    "calls": {
+      "items": {
+        "$ref": "#/$defs/CallSite"
+      },
+      "title": "Calls",
+      "type": "array"
+    },
+    "links": {
+      "items": {
+        "$ref": "#/$defs/CallLink"
+      },
+      "title": "Links",
+      "type": "array"
+    },
+    "nodes": {
+      "items": {
+        "$ref": "#/$defs/AnalysisNodeRecord"
+      },
+      "title": "Nodes",
+      "type": "array"
+    },
+    "roots": {
+      "items": {
+        "$ref": "#/$defs/FlowRoot"
+      },
+      "title": "Roots",
+      "type": "array"
+    },
+    "truncated": {
+      "title": "Truncated",
+      "type": "boolean"
+    },
+    "pending_methods": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+        "type": "string"
+      },
+      "title": "Pending Methods",
+      "type": "array"
+    },
+    "unavailable_methods": {
+      "patternProperties": {
+        "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$": {
+          "type": "string"
+        }
+      },
+      "title": "Unavailable Methods",
+      "type": "object"
+    },
+    "path_feasibility_checked": {
+      "const": false,
+      "default": false,
+      "title": "Path Feasibility Checked",
+      "type": "boolean"
+    },
+    "points_to_analysis_performed": {
+      "const": false,
+      "default": false,
+      "title": "Points To Analysis Performed",
+      "type": "boolean"
+    },
+    "control_conditions_resolved": {
+      "const": false,
+      "default": false,
+      "title": "Control Conditions Resolved",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "run_ref",
+    "configuration",
+    "input_flow_sha256",
+    "calls",
+    "links",
+    "nodes",
+    "roots",
+    "truncated",
+    "pending_methods",
+    "unavailable_methods"
+  ],
+  "title": "CallReport",
+  "type": "object"
+}

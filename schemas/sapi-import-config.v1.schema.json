@@ -1,0 +1,123 @@
+{
+  "$defs": {
+    "SapiSource": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        },
+        "path": {
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "archive_entry": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Archive Entry"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "resource_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Resource Sha256",
+          "type": "string"
+        },
+        "format": {
+          "default": "flowdroid_tagged",
+          "enum": [
+            "flowdroid_tagged",
+            "crysl_jca"
+          ],
+          "title": "Format",
+          "type": "string"
+        },
+        "api_signatures_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Api Signatures Path"
+        },
+        "api_signatures_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Api Signatures Sha256"
+        },
+        "origin_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Origin Url"
+        }
+      },
+      "required": [
+        "source_id",
+        "version",
+        "path",
+        "sha256",
+        "resource_sha256"
+      ],
+      "title": "SapiSource",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "sapi-import-config.v1",
+      "default": "sapi-import-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/SapiSource"
+      },
+      "minItems": 1,
+      "title": "Sources",
+      "type": "array"
+    }
+  },
+  "required": [
+    "sources"
+  ],
+  "title": "SapiImportConfig",
+  "type": "object"
+}

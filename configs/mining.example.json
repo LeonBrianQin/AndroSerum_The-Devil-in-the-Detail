@@ -1,0 +1,17 @@
+{
+  "schema_version": "mining-config.v1",
+  "max_bu": 4,
+  "max_chunks": 24,
+  "max_request_chars": 100000,
+  "max_chunk_chars": 28000,
+  "max_ledger_context_chars": 20000,
+  "max_model_calls": 32,
+  "max_repairs_per_chunk": 1,
+  "max_supplement_rounds": 1,
+  "max_supplement_records": 8,
+  "max_response_chars": 60000,
+  "model_timeout_seconds": 180,
+  "max_actions": 256,
+  "max_bcs": 128,
+  "max_queries_per_proposal": 4
+}

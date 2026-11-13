@@ -1,0 +1,2529 @@
+{
+  "$defs": {
+    "AnalysisNodeRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "kind": {
+          "const": "analysis_node",
+          "title": "Kind",
+          "type": "string"
+        },
+        "position": {
+          "discriminator": {
+            "mapping": {
+              "analysis": "#/$defs/AnalysisPosition",
+              "model": "#/$defs/ModelPosition"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/AnalysisPosition"
+            },
+            {
+              "$ref": "#/$defs/ModelPosition"
+            }
+          ],
+          "title": "Position"
+        },
+        "node_kind": {
+          "enum": [
+            "jimple",
+            "cfg",
+            "object",
+            "state",
+            "entry",
+            "event",
+            "mapping"
+          ],
+          "title": "Node Kind",
+          "type": "string"
+        },
+        "method_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Method Ref"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "slots": {
+          "items": {
+            "$ref": "#/$defs/ProgramSlot"
+          },
+          "title": "Slots",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "kind",
+        "position",
+        "node_kind"
+      ],
+      "title": "AnalysisNodeRecord",
+      "type": "object"
+    },
+    "AnalysisPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "analysis",
+          "title": "Kind",
+          "type": "string"
+        },
+        "artifact_path": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Artifact Path",
+          "type": "string"
+        },
+        "position_label": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Position Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "artifact_path",
+        "position_label"
+      ],
+      "title": "AnalysisPosition",
+      "type": "object"
+    },
+    "BindingRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "binding_kind": {
+          "enum": [
+            "object",
+            "value",
+            "state"
+          ],
+          "title": "Binding Kind",
+          "type": "string"
+        },
+        "endpoints": {
+          "items": {
+            "$ref": "#/$defs/Endpoint"
+          },
+          "minItems": 2,
+          "title": "Endpoints",
+          "type": "array"
+        },
+        "context_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Context Ref"
+        },
+        "condition_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Condition Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "run_ref",
+        "provenance",
+        "binding_kind",
+        "endpoints"
+      ],
+      "title": "BindingRecord",
+      "type": "object"
+    },
+    "CallFrame": {
+      "additionalProperties": false,
+      "properties": {
+        "callsite_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Callsite Ref",
+          "type": "string"
+        },
+        "callee_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Callee Ref",
+          "type": "string"
+        },
+        "context_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Context Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "callsite_ref",
+        "callee_ref",
+        "context_ref"
+      ],
+      "title": "CallFrame",
+      "type": "object"
+    },
+    "ContextHeapConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "context-heap-config.v1",
+          "default": "context-heap-config.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "root_signatures": {
+          "items": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "title": "Root Signatures",
+          "type": "array"
+        },
+        "max_depth": {
+          "default": 4,
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Max Depth",
+          "type": "integer"
+        },
+        "max_nodes": {
+          "default": 5000,
+          "maximum": 50000,
+          "minimum": 1,
+          "title": "Max Nodes",
+          "type": "integer"
+        },
+        "max_frames": {
+          "default": 256,
+          "maximum": 4096,
+          "minimum": 1,
+          "title": "Max Frames",
+          "type": "integer"
+        },
+        "scalar": {
+          "$ref": "#/$defs/LocalFlowConfig"
+        },
+        "heap": {
+          "$ref": "#/$defs/HeapConfig"
+        }
+      },
+      "title": "ContextHeapConfig",
+      "type": "object"
+    },
+    "DefOracle": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "minimum": 0,
+          "title": "Unit",
+          "type": "integer"
+        },
+        "local_index": {
+          "minimum": 0,
+          "title": "Local Index",
+          "type": "integer"
+        },
+        "definitions": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Definitions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "unit",
+        "local_index",
+        "definitions"
+      ],
+      "title": "DefOracle",
+      "type": "object"
+    },
+    "Endpoint": {
+      "additionalProperties": false,
+      "properties": {
+        "element_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Element Ref",
+          "type": "string"
+        },
+        "slot_kind": {
+          "enum": [
+            "element",
+            "receiver",
+            "argument",
+            "result",
+            "parameter",
+            "return",
+            "value",
+            "local",
+            "field",
+            "array_element",
+            "state",
+            "condition",
+            "entry"
+          ],
+          "title": "Slot Kind",
+          "type": "string"
+        },
+        "slot_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Index"
+        },
+        "slot_label": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Label"
+        },
+        "position_label": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Position Label"
+        }
+      },
+      "required": [
+        "element_ref",
+        "slot_kind"
+      ],
+      "title": "Endpoint",
+      "type": "object"
+    },
+    "EscapingException": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "minimum": 0,
+          "title": "Unit",
+          "type": "integer"
+        },
+        "included_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Included Types",
+          "type": "array"
+        },
+        "excluded_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Excluded Types",
+          "type": "array"
+        }
+      },
+      "required": [
+        "unit",
+        "included_types",
+        "excluded_types"
+      ],
+      "title": "EscapingException",
+      "type": "object"
+    },
+    "ExceptionalEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "minimum": 0,
+          "title": "Source",
+          "type": "integer"
+        },
+        "target": {
+          "minimum": 0,
+          "title": "Target",
+          "type": "integer"
+        },
+        "trap_index": {
+          "minimum": 0,
+          "title": "Trap Index",
+          "type": "integer"
+        },
+        "exception_type": {
+          "title": "Exception Type",
+          "type": "string"
+        },
+        "transfer": {
+          "const": "before_unit",
+          "title": "Transfer",
+          "type": "string"
+        },
+        "included_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Included Types",
+          "type": "array"
+        },
+        "excluded_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Excluded Types",
+          "type": "array"
+        }
+      },
+      "required": [
+        "source",
+        "target",
+        "trap_index",
+        "exception_type",
+        "transfer",
+        "included_types",
+        "excluded_types"
+      ],
+      "title": "ExceptionalEdge",
+      "type": "object"
+    },
+    "FlowLink": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "reaching_definition",
+            "value_copy",
+            "expression_input",
+            "argument_input",
+            "receiver_input"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "target": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "local_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Index"
+        },
+        "witness": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Witness",
+          "type": "array"
+        },
+        "alternatives": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Alternatives",
+          "type": "array"
+        },
+        "resolution": {
+          "default": "resolved",
+          "enum": [
+            "resolved",
+            "partial"
+          ],
+          "title": "Resolution",
+          "type": "string"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "requires_normal_completion": {
+          "default": true,
+          "title": "Requires Normal Completion",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "source",
+        "target"
+      ],
+      "title": "FlowLink",
+      "type": "object"
+    },
+    "FlowRoot": {
+      "additionalProperties": false,
+      "properties": {
+        "endpoint": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "kind": {
+          "enum": [
+            "parameter",
+            "receiver",
+            "caught_exception",
+            "constant",
+            "call_result",
+            "heap_read",
+            "allocation",
+            "undefined_local",
+            "unsupported_expression",
+            "incomplete_operand",
+            "opaque_result"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "details": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Details",
+          "type": "object"
+        }
+      },
+      "required": [
+        "endpoint",
+        "kind"
+      ],
+      "title": "FlowRoot",
+      "type": "object"
+    },
+    "HeapAccess": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "minimum": 0,
+          "title": "Unit",
+          "type": "integer"
+        },
+        "unit_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Unit Ref",
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "field_write",
+            "field_read",
+            "array_write",
+            "array_read"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "storage_kind": {
+          "enum": [
+            "instance_field",
+            "static_field",
+            "array"
+          ],
+          "title": "Storage Kind",
+          "type": "string"
+        },
+        "field_signature": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Field Signature"
+        },
+        "index": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Index"
+        },
+        "unknown_index": {
+          "title": "Unknown Index",
+          "type": "boolean"
+        },
+        "objects": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Objects",
+          "type": "array"
+        },
+        "unknown_base": {
+          "title": "Unknown Base",
+          "type": "boolean"
+        },
+        "base_endpoint": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Endpoint"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "origin_paths": {
+          "items": {
+            "items": {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Origin Paths",
+          "type": "array"
+        },
+        "location_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Location Refs",
+          "type": "array"
+        },
+        "binding_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Binding Refs",
+          "type": "array"
+        },
+        "write_value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Endpoint"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "strong_update": {
+          "title": "Strong Update",
+          "type": "boolean"
+        },
+        "issues": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "required": [
+        "unit",
+        "unit_ref",
+        "operation",
+        "storage_kind",
+        "field_signature",
+        "index",
+        "unknown_index",
+        "objects",
+        "unknown_base",
+        "base_endpoint",
+        "origin_paths",
+        "location_refs",
+        "binding_refs",
+        "write_value",
+        "strong_update",
+        "issues"
+      ],
+      "title": "HeapAccess",
+      "type": "object"
+    },
+    "HeapConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "heap-flow-config.v1",
+          "default": "heap-flow-config.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "scope": {
+          "const": "method_local_allocation_storage",
+          "default": "method_local_allocation_storage",
+          "title": "Scope",
+          "type": "string"
+        },
+        "call_effect": {
+          "const": "unknown_on_normal_and_exceptional_exit",
+          "default": "unknown_on_normal_and_exceptional_exit",
+          "title": "Call Effect",
+          "type": "string"
+        },
+        "max_locations": {
+          "default": 10000,
+          "maximum": 100000,
+          "minimum": 1,
+          "title": "Max Locations",
+          "type": "integer"
+        },
+        "max_worklist_visits": {
+          "default": 100000,
+          "maximum": 10000000,
+          "minimum": 1,
+          "title": "Max Worklist Visits",
+          "type": "integer"
+        },
+        "max_origin_visits": {
+          "default": 500000,
+          "maximum": 10000000,
+          "minimum": 1,
+          "title": "Max Origin Visits",
+          "type": "integer"
+        },
+        "max_witness_visits": {
+          "default": 2000000,
+          "maximum": 100000000,
+          "minimum": 1,
+          "title": "Max Witness Visits",
+          "type": "integer"
+        }
+      },
+      "title": "HeapConfig",
+      "type": "object"
+    },
+    "HeapLink": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": [
+            "write_operand",
+            "storage_read"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "relation_kind": {
+          "enum": [
+            "data_dependency",
+            "field_dependency",
+            "array_dependency"
+          ],
+          "title": "Relation Kind",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "target": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "write_unit": {
+          "minimum": 0,
+          "title": "Write Unit",
+          "type": "integer"
+        },
+        "read_unit": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Read Unit"
+        },
+        "location_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location Ref"
+        },
+        "object_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Object Ref"
+        },
+        "binding_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Binding Refs",
+          "type": "array"
+        },
+        "witness": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Witness",
+          "type": "array"
+        },
+        "resolution": {
+          "enum": [
+            "resolved",
+            "partial"
+          ],
+          "title": "Resolution",
+          "type": "string"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "requires_successful_write": {
+          "title": "Requires Successful Write",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "role",
+        "relation_kind",
+        "source",
+        "target",
+        "write_unit",
+        "binding_refs",
+        "witness",
+        "resolution",
+        "reason",
+        "requires_successful_write"
+      ],
+      "title": "HeapLink",
+      "type": "object"
+    },
+    "HeapMethod": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "heap-flow-method.v1",
+          "default": "heap-flow-method.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "method_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Method Ref",
+          "type": "string"
+        },
+        "configuration": {
+          "$ref": "#/$defs/HeapConfig"
+        },
+        "input_flow_entry": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Input Flow Entry",
+          "type": "string"
+        },
+        "input_flow_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Input Flow Sha256",
+          "type": "string"
+        },
+        "ir_entry": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Ir Entry",
+          "type": "string"
+        },
+        "cfg_entry": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Cfg Entry",
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "complete",
+            "truncated",
+            "unavailable"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "visits": {
+          "minimum": 0,
+          "title": "Visits",
+          "type": "integer"
+        },
+        "objects": {
+          "items": {
+            "$ref": "#/$defs/HeapObject"
+          },
+          "title": "Objects",
+          "type": "array"
+        },
+        "locations": {
+          "items": {
+            "$ref": "#/$defs/StorageLocation"
+          },
+          "title": "Locations",
+          "type": "array"
+        },
+        "accesses": {
+          "items": {
+            "$ref": "#/$defs/HeapAccess"
+          },
+          "title": "Accesses",
+          "type": "array"
+        },
+        "links": {
+          "items": {
+            "$ref": "#/$defs/HeapLink"
+          },
+          "title": "Links",
+          "type": "array"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/AnalysisNodeRecord"
+          },
+          "title": "Nodes",
+          "type": "array"
+        },
+        "bindings": {
+          "items": {
+            "$ref": "#/$defs/BindingRecord"
+          },
+          "title": "Bindings",
+          "type": "array"
+        },
+        "roots": {
+          "items": {
+            "$ref": "#/$defs/FlowRoot"
+          },
+          "title": "Roots",
+          "type": "array"
+        },
+        "read_states": {
+          "additionalProperties": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": "object"
+          },
+          "title": "Read States",
+          "type": "object"
+        },
+        "path_feasibility_checked": {
+          "const": false,
+          "default": false,
+          "title": "Path Feasibility Checked",
+          "type": "boolean"
+        },
+        "interprocedural_heap_resolved": {
+          "const": false,
+          "default": false,
+          "title": "Interprocedural Heap Resolved",
+          "type": "boolean"
+        },
+        "default_initialization_resolved": {
+          "const": false,
+          "default": false,
+          "title": "Default Initialization Resolved",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "method_ref",
+        "configuration",
+        "input_flow_entry",
+        "input_flow_sha256",
+        "ir_entry",
+        "cfg_entry",
+        "state",
+        "reason",
+        "visits",
+        "objects",
+        "locations",
+        "accesses",
+        "links",
+        "nodes",
+        "bindings",
+        "roots",
+        "read_states"
+      ],
+      "title": "HeapMethod",
+      "type": "object"
+    },
+    "HeapObject": {
+      "additionalProperties": false,
+      "properties": {
+        "object_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Object Ref",
+          "type": "string"
+        },
+        "allocation_unit": {
+          "minimum": 0,
+          "title": "Allocation Unit",
+          "type": "integer"
+        },
+        "type_descriptor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Type Descriptor"
+        },
+        "single_allocation_per_invocation": {
+          "title": "Single Allocation Per Invocation",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "object_ref",
+        "allocation_unit",
+        "type_descriptor",
+        "single_allocation_per_invocation"
+      ],
+      "title": "HeapObject",
+      "type": "object"
+    },
+    "IRInvoke": {
+      "additionalProperties": false,
+      "properties": {
+        "signature": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Signature",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "static",
+            "interface",
+            "special",
+            "dynamic",
+            "virtual"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "arguments": {
+          "items": {
+            "$ref": "#/$defs/IRValue"
+          },
+          "title": "Arguments",
+          "type": "array"
+        },
+        "receiver": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "phantom_owner": {
+          "title": "Phantom Owner",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "signature",
+        "kind",
+        "arguments",
+        "receiver",
+        "phantom_owner"
+      ],
+      "title": "IRInvoke",
+      "type": "object"
+    },
+    "IRLocal": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "type_descriptor": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Type Descriptor"
+        }
+      },
+      "required": [
+        "index",
+        "name",
+        "type_descriptor"
+      ],
+      "title": "IRLocal",
+      "type": "object"
+    },
+    "IRTrap": {
+      "additionalProperties": false,
+      "properties": {
+        "exception_type": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Exception Type",
+          "type": "string"
+        },
+        "begin": {
+          "minimum": 0,
+          "title": "Begin",
+          "type": "integer"
+        },
+        "end": {
+          "minimum": 0,
+          "title": "End",
+          "type": "integer"
+        },
+        "handler": {
+          "minimum": 0,
+          "title": "Handler",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "exception_type",
+        "begin",
+        "end",
+        "handler"
+      ],
+      "title": "IRTrap",
+      "type": "object"
+    },
+    "IRUnit": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "identity",
+            "invoke",
+            "return",
+            "branch",
+            "field_write",
+            "field_read",
+            "array_write",
+            "array_read",
+            "allocation",
+            "constant",
+            "assignment",
+            "throw",
+            "monitor",
+            "nop",
+            "other"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "definitions": {
+          "items": {
+            "$ref": "#/$defs/IRValue"
+          },
+          "title": "Definitions",
+          "type": "array"
+        },
+        "uses": {
+          "items": {
+            "$ref": "#/$defs/IRValue"
+          },
+          "title": "Uses",
+          "type": "array"
+        },
+        "invoke": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRInvoke"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "targets": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Targets",
+          "type": "array"
+        },
+        "switch_keys": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Switch Keys",
+          "type": "array"
+        },
+        "condition": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "falls_through": {
+          "title": "Falls Through",
+          "type": "boolean"
+        },
+        "branches": {
+          "title": "Branches",
+          "type": "boolean"
+        },
+        "left": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "right": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "offsets_code_units": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Offsets Code Units",
+          "type": "array"
+        },
+        "tag_names": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tag Names",
+          "type": "array"
+        },
+        "line_number": {
+          "title": "Line Number",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "index",
+        "text",
+        "operation",
+        "definitions",
+        "uses",
+        "invoke",
+        "targets",
+        "switch_keys",
+        "condition",
+        "falls_through",
+        "branches",
+        "left",
+        "right",
+        "offsets_code_units",
+        "tag_names",
+        "line_number"
+      ],
+      "title": "IRUnit",
+      "type": "object"
+    },
+    "IRValue": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "type_descriptor": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Type Descriptor"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "local_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Local Index"
+        },
+        "parameter_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parameter Index"
+        },
+        "identity_kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "this",
+                "parameter",
+                "caught_exception"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Identity Kind"
+        },
+        "base": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "index_value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IRValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "constant_kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "int",
+                "long",
+                "float_bits",
+                "double_bits",
+                "string",
+                "utf16_units",
+                "null",
+                "class"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Constant Kind"
+        },
+        "constant": {
+          "$ref": "#/$defs/JsonValue"
+        },
+        "field_signature": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Field Signature"
+        },
+        "children": {
+          "items": {
+            "$ref": "#/$defs/IRValue"
+          },
+          "title": "Children",
+          "type": "array"
+        },
+        "truncated": {
+          "title": "Truncated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "type_descriptor",
+        "text",
+        "local_index",
+        "constant_kind",
+        "constant",
+        "field_signature",
+        "children",
+        "truncated"
+      ],
+      "title": "IRValue",
+      "type": "object"
+    },
+    "JimpleMethod": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "jimple-method.v1",
+          "default": "jimple-method.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "signature": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Signature",
+          "type": "string"
+        },
+        "soot_signature": {
+          "title": "Soot Signature",
+          "type": "string"
+        },
+        "modifiers": {
+          "minimum": 0,
+          "title": "Modifiers",
+          "type": "integer"
+        },
+        "state": {
+          "enum": [
+            "complete",
+            "abstract",
+            "native",
+            "unavailable",
+            "truncated",
+            "failed"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "declared_unit_count": {
+          "minimum": 0,
+          "title": "Declared Unit Count",
+          "type": "integer"
+        },
+        "locals": {
+          "items": {
+            "$ref": "#/$defs/IRLocal"
+          },
+          "title": "Locals",
+          "type": "array"
+        },
+        "units": {
+          "items": {
+            "$ref": "#/$defs/IRUnit"
+          },
+          "title": "Units",
+          "type": "array"
+        },
+        "traps": {
+          "items": {
+            "$ref": "#/$defs/IRTrap"
+          },
+          "title": "Traps",
+          "type": "array"
+        }
+      },
+      "required": [
+        "signature",
+        "soot_signature",
+        "modifiers",
+        "state",
+        "reason",
+        "declared_unit_count",
+        "locals",
+        "units",
+        "traps"
+      ],
+      "title": "JimpleMethod",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "LocalFlowConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "local-flow-config.v1",
+          "default": "local-flow-config.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "exception_policy": {
+          "default": "soot_direct_pre_state",
+          "enum": [
+            "soot_direct_pre_state",
+            "normal_only"
+          ],
+          "title": "Exception Policy",
+          "type": "string"
+        },
+        "max_worklist_visits": {
+          "default": 100000,
+          "maximum": 10000000,
+          "minimum": 1,
+          "title": "Max Worklist Visits",
+          "type": "integer"
+        },
+        "max_cfg_edges": {
+          "default": 200000,
+          "maximum": 10000000,
+          "minimum": 1,
+          "title": "Max Cfg Edges",
+          "type": "integer"
+        },
+        "max_witness_visits": {
+          "default": 2000000,
+          "maximum": 100000000,
+          "minimum": 1,
+          "title": "Max Witness Visits",
+          "type": "integer"
+        }
+      },
+      "title": "LocalFlowConfig",
+      "type": "object"
+    },
+    "MethodCFG": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "jimple-cfg.v1",
+          "default": "jimple-cfg.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "method_signature": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Method Signature",
+          "type": "string"
+        },
+        "method_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Method Sha256",
+          "type": "string"
+        },
+        "unit_count": {
+          "minimum": 0,
+          "title": "Unit Count",
+          "type": "integer"
+        },
+        "exception_model": {
+          "const": "soot-4.7.1-unit-throw-analysis",
+          "title": "Exception Model",
+          "type": "string"
+        },
+        "normal_edges": {
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "minimum": 0,
+                "type": "integer"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Normal Edges",
+          "type": "array"
+        },
+        "exception_edges": {
+          "items": {
+            "$ref": "#/$defs/ExceptionalEdge"
+          },
+          "title": "Exception Edges",
+          "type": "array"
+        },
+        "escaping_exceptions": {
+          "items": {
+            "$ref": "#/$defs/EscapingException"
+          },
+          "title": "Escaping Exceptions",
+          "type": "array"
+        },
+        "normal_defs_oracle": {
+          "items": {
+            "$ref": "#/$defs/DefOracle"
+          },
+          "title": "Normal Defs Oracle",
+          "type": "array"
+        }
+      },
+      "required": [
+        "method_signature",
+        "method_sha256",
+        "unit_count",
+        "exception_model",
+        "normal_edges",
+        "exception_edges",
+        "escaping_exceptions",
+        "normal_defs_oracle"
+      ],
+      "title": "MethodCFG",
+      "type": "object"
+    },
+    "MethodFlow": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "local-flow-method.v1",
+          "default": "local-flow-method.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "scope": {
+          "const": "method_scalar_locals",
+          "default": "method_scalar_locals",
+          "title": "Scope",
+          "type": "string"
+        },
+        "method_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Method Ref",
+          "type": "string"
+        },
+        "method_signature": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Method Signature",
+          "type": "string"
+        },
+        "ir_entry": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Ir Entry",
+          "type": "string"
+        },
+        "ir_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Ir Sha256",
+          "type": "string"
+        },
+        "cfg_entry": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Cfg Entry",
+          "type": "string"
+        },
+        "cfg_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Cfg Sha256",
+          "type": "string"
+        },
+        "node_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Node Refs",
+          "type": "array"
+        },
+        "configuration": {
+          "$ref": "#/$defs/LocalFlowConfig"
+        },
+        "state": {
+          "enum": [
+            "complete",
+            "truncated",
+            "unavailable"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "visits": {
+          "minimum": 0,
+          "title": "Visits",
+          "type": "integer"
+        },
+        "reachable": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Reachable",
+          "type": "array"
+        },
+        "pending_units": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Pending Units",
+          "type": "array"
+        },
+        "uses": {
+          "items": {
+            "$ref": "#/$defs/ReachingUse"
+          },
+          "title": "Uses",
+          "type": "array"
+        },
+        "links": {
+          "items": {
+            "$ref": "#/$defs/FlowLink"
+          },
+          "title": "Links",
+          "type": "array"
+        },
+        "roots": {
+          "items": {
+            "$ref": "#/$defs/FlowRoot"
+          },
+          "title": "Roots",
+          "type": "array"
+        },
+        "operand_nodes": {
+          "items": {
+            "$ref": "#/$defs/OperandNode"
+          },
+          "title": "Operand Nodes",
+          "type": "array"
+        },
+        "path_feasibility_checked": {
+          "const": false,
+          "default": false,
+          "title": "Path Feasibility Checked",
+          "type": "boolean"
+        },
+        "heap_and_callee_resolved": {
+          "const": false,
+          "default": false,
+          "title": "Heap And Callee Resolved",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "method_ref",
+        "method_signature",
+        "ir_entry",
+        "ir_sha256",
+        "cfg_entry",
+        "cfg_sha256",
+        "node_refs",
+        "configuration",
+        "state",
+        "reason",
+        "visits",
+        "reachable",
+        "pending_units",
+        "uses",
+        "links",
+        "roots",
+        "operand_nodes"
+      ],
+      "title": "MethodFlow",
+      "type": "object"
+    },
+    "ModelPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "model",
+          "title": "Kind",
+          "type": "string"
+        },
+        "model_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Model Ref",
+          "type": "string"
+        },
+        "position_label": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Position Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "model_ref",
+        "position_label"
+      ],
+      "title": "ModelPosition",
+      "type": "object"
+    },
+    "OperandNode": {
+      "additionalProperties": false,
+      "properties": {
+        "node_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Node Ref",
+          "type": "string"
+        },
+        "unit": {
+          "minimum": 0,
+          "title": "Unit",
+          "type": "integer"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/IRValue"
+        }
+      },
+      "required": [
+        "node_ref",
+        "unit",
+        "role",
+        "value"
+      ],
+      "title": "OperandNode",
+      "type": "object"
+    },
+    "ProgramSlot": {
+      "additionalProperties": false,
+      "properties": {
+        "slot_kind": {
+          "enum": [
+            "element",
+            "receiver",
+            "argument",
+            "result",
+            "parameter",
+            "return",
+            "value",
+            "local",
+            "field",
+            "array_element",
+            "state",
+            "condition",
+            "entry"
+          ],
+          "title": "Slot Kind",
+          "type": "string"
+        },
+        "slot_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Index"
+        },
+        "slot_label": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot Label"
+        },
+        "value": {
+          "$ref": "#/$defs/ValueInfo"
+        },
+        "type_descriptor": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type Descriptor"
+        },
+        "registers": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Registers",
+          "type": "array"
+        }
+      },
+      "required": [
+        "slot_kind",
+        "value"
+      ],
+      "title": "ProgramSlot",
+      "type": "object"
+    },
+    "Projection": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "context-projection.v1",
+          "default": "context-projection.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "frames": {
+          "items": {
+            "$ref": "#/$defs/ProjectionFrame"
+          },
+          "title": "Frames",
+          "type": "array"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/ProjectionNode"
+          },
+          "title": "Nodes",
+          "type": "array"
+        },
+        "method": {
+          "$ref": "#/$defs/JimpleMethod"
+        },
+        "cfg": {
+          "$ref": "#/$defs/MethodCFG"
+        },
+        "issues": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "interpretation": {
+          "const": "derived_graph_not_original_jimple",
+          "default": "derived_graph_not_original_jimple",
+          "title": "Interpretation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "frames",
+        "nodes",
+        "method",
+        "cfg",
+        "issues"
+      ],
+      "title": "Projection",
+      "type": "object"
+    },
+    "ProjectionFrame": {
+      "additionalProperties": false,
+      "properties": {
+        "context_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Context Ref",
+          "type": "string"
+        },
+        "method_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Method Ref",
+          "type": "string"
+        },
+        "parent_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Parent Ref"
+        },
+        "call_path": {
+          "items": {
+            "$ref": "#/$defs/CallFrame"
+          },
+          "title": "Call Path",
+          "type": "array"
+        },
+        "local_offset": {
+          "title": "Local Offset",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "context_ref",
+        "method_ref",
+        "parent_ref",
+        "call_path",
+        "local_offset"
+      ],
+      "title": "ProjectionFrame",
+      "type": "object"
+    },
+    "ProjectionNode": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "title": "Index",
+          "type": "integer"
+        },
+        "node_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Node Ref",
+          "type": "string"
+        },
+        "origin_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Origin Ref"
+        },
+        "origin_method_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Origin Method Ref",
+          "type": "string"
+        },
+        "frame_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Frame Ref",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "original",
+            "argument_binding",
+            "return_binding",
+            "call_entry",
+            "call_result",
+            "exception_effect",
+            "exit"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "support_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Support Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "index",
+        "node_ref",
+        "origin_ref",
+        "origin_method_ref",
+        "frame_ref",
+        "role",
+        "support_refs"
+      ],
+      "title": "ProjectionNode",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "direct",
+            "static_analysis",
+            "model_assisted"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "tool_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Tool Ref",
+          "type": "string"
+        },
+        "support_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Support Refs",
+          "type": "array"
+        },
+        "rule_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Ref"
+        }
+      },
+      "required": [
+        "kind",
+        "tool_ref"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "ReachingUse": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "minimum": 0,
+          "title": "Unit",
+          "type": "integer"
+        },
+        "local_index": {
+          "minimum": 0,
+          "title": "Local Index",
+          "type": "integer"
+        },
+        "definitions": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Definitions",
+          "type": "array"
+        },
+        "undefined": {
+          "title": "Undefined",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "unit",
+        "local_index",
+        "definitions",
+        "undefined"
+      ],
+      "title": "ReachingUse",
+      "type": "object"
+    },
+    "StorageLocation": {
+      "additionalProperties": false,
+      "properties": {
+        "location_ref": {
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+          "title": "Location Ref",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "instance_field",
+            "static_field",
+            "array"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "object_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Object Ref"
+        },
+        "field_signature": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Field Signature"
+        },
+        "index": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Index"
+        }
+      },
+      "required": [
+        "location_ref",
+        "kind",
+        "object_ref"
+      ],
+      "title": "StorageLocation",
+      "type": "object"
+    },
+    "ValueInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "known",
+            "partial",
+            "unknown",
+            "not_applicable"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue",
+          "default": null
+        },
+        "source_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "ValueInfo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "context-heap-method.v1",
+      "default": "context-heap-method.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "root_method_ref": {
+      "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z0-9._-]+$",
+      "title": "Root Method Ref",
+      "type": "string"
+    },
+    "configuration": {
+      "$ref": "#/$defs/ContextHeapConfig"
+    },
+    "input_flow_sha256": {
+      "additionalProperties": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "title": "Input Flow Sha256",
+      "type": "object"
+    },
+    "call_report_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Call Report Sha256",
+      "type": "string"
+    },
+    "state": {
+      "enum": [
+        "complete",
+        "truncated",
+        "unavailable"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    },
+    "projection": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Projection"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "scalar": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/MethodFlow"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "heap": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/HeapMethod"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "path_feasibility_checked": {
+      "const": false,
+      "default": false,
+      "title": "Path Feasibility Checked",
+      "type": "boolean"
+    },
+    "exceptional_heap_precision": {
+      "const": "unknown_cross_method_effects",
+      "default": "unknown_cross_method_effects",
+      "title": "Exceptional Heap Precision",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_ref",
+    "root_method_ref",
+    "configuration",
+    "input_flow_sha256",
+    "call_report_sha256",
+    "state",
+    "reason",
+    "projection",
+    "scalar",
+    "heap"
+  ],
+  "title": "ContextHeapReport",
+  "type": "object"
+}

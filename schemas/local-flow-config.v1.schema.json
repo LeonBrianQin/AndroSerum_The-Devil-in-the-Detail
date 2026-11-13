@@ -1,0 +1,43 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "local-flow-config.v1",
+      "default": "local-flow-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "exception_policy": {
+      "default": "soot_direct_pre_state",
+      "enum": [
+        "soot_direct_pre_state",
+        "normal_only"
+      ],
+      "title": "Exception Policy",
+      "type": "string"
+    },
+    "max_worklist_visits": {
+      "default": 100000,
+      "maximum": 10000000,
+      "minimum": 1,
+      "title": "Max Worklist Visits",
+      "type": "integer"
+    },
+    "max_cfg_edges": {
+      "default": 200000,
+      "maximum": 10000000,
+      "minimum": 1,
+      "title": "Max Cfg Edges",
+      "type": "integer"
+    },
+    "max_witness_visits": {
+      "default": 2000000,
+      "maximum": 100000000,
+      "minimum": 1,
+      "title": "Max Witness Visits",
+      "type": "integer"
+    }
+  },
+  "title": "LocalFlowConfig",
+  "type": "object"
+}

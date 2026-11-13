@@ -1,0 +1,5 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.androserum.context">
+    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="28"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <application android:label="Inert context heap fixture"/>
+</manifest>

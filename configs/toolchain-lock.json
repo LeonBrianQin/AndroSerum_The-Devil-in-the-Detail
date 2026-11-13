@@ -1,0 +1,72 @@
+{
+  "schema_version": "toolchain.v1",
+  "platform": "windows-x86_64",
+  "java_release": 17,
+  "soot_version": "4.7.1",
+  "flowdroid_version": "2.15.1",
+  "archives": [
+    {
+      "name": "Amazon Corretto JDK 17.0.20.12.1",
+      "url": "https://corretto.aws/downloads/resources/17.0.20.12.1/amazon-corretto-17.0.20.12.1-windows-x64-jdk.zip",
+      "checksum_algorithm": "md5",
+      "checksum": "4c42eb72fa6d67489dade29394e56edc",
+      "checksum_source": "https://corretto.aws/downloads/latest_checksum/amazon-corretto-17-x64-windows-jdk.zip",
+      "destination": "jdk-17",
+      "required_file": "bin/javac.exe"
+    },
+    {
+      "name": "Apache Maven 3.9.16",
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.16/apache-maven-3.9.16-bin.zip",
+      "checksum_algorithm": "sha512",
+      "checksum": "ed41650d42485cfc243fad22158caf9cbb5dc408ce7a09ddb94dd42a019de929ca43065bfa450612cf12bf78b5cafa3884b96c090de326ff590448c933454af3",
+      "checksum_source": "https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.16/apache-maven-3.9.16-bin.zip.sha512",
+      "destination": "apache-maven-3.9.16",
+      "required_file": "bin/mvn.cmd"
+    },
+    {
+      "name": "Android Command-line Tools 12.0",
+      "url": "https://dl.google.com/android/repository/commandlinetools-win-11076708_latest.zip",
+      "checksum_algorithm": "sha1",
+      "checksum": "3d2917302740f476999a091bc5558837c7a863c5",
+      "checksum_source": "https://dl.google.com/android/repository/repository2-3.xml",
+      "destination": "android-sdk/cmdline-tools/12.0",
+      "required_file": "bin/sdkmanager.bat"
+    },
+    {
+      "name": "Android SDK Platform 16 revision 5",
+      "url": "https://dl.google.com/android/repository/android-16_r05.zip",
+      "checksum_algorithm": "sha1",
+      "checksum": "12a5ce6235a76bc30f62c26bda1b680e336abd07",
+      "checksum_source": "https://dl.google.com/android/repository/repository2-3.xml",
+      "destination": "android-sdk/platforms/android-16",
+      "required_file": "android.jar"
+    },
+    {
+      "name": "Android SDK Platform 28 revision 6",
+      "url": "https://dl.google.com/android/repository/platform-28_r06.zip",
+      "checksum_algorithm": "sha1",
+      "checksum": "9a4e52b1d55bd2e24216b150aafae2503d3efba6",
+      "checksum_source": "https://dl.google.com/android/repository/repository2-3.xml",
+      "destination": "android-sdk/platforms/android-28",
+      "required_file": "android.jar"
+    },
+    {
+      "name": "Android SDK Platform 35 revision 2",
+      "url": "https://dl.google.com/android/repository/platform-35_r02.zip",
+      "checksum_algorithm": "sha1",
+      "checksum": "0bb560a90a7a2cbd0dd8348224d518b638fe7949",
+      "checksum_source": "https://dl.google.com/android/repository/repository2-3.xml",
+      "destination": "android-sdk/platforms/android-35",
+      "required_file": "android.jar"
+    },
+    {
+      "name": "Android SDK Build-Tools 35.0.0",
+      "url": "https://dl.google.com/android/repository/build-tools_r35_windows.zip",
+      "checksum_algorithm": "sha1",
+      "checksum": "af059bb67cf7786f45ee0db85e2d24985df1b4b6",
+      "checksum_source": "https://dl.google.com/android/repository/repository2-3.xml",
+      "destination": "android-sdk/build-tools/35.0.0",
+      "required_file": "d8.bat"
+    }
+  ]
+}

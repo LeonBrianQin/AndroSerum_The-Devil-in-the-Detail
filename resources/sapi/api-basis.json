@@ -1,0 +1,7 @@
+{
+  "schema_version": "jca-api-basis.v1",
+  "java_runtime_sha256": "1e1be5fb92e33218323825b284c16377bdf10f7ed5cb4d30323f6b596ea45e5f",
+  "javap_sha256": "f603393a1d1f8143ea89264abda68d9ca113360fad60a8086a4d6b5d8478bdbf",
+  "api_sha256": "d6d54c79c41233f21bbfe829c8202c467ac429b88ea03e6ce6590d75c37a29d9",
+  "scope": "Installed JDK17 public descriptors used to disambiguate pinned CrySL events; Android API availability is not asserted"
+}

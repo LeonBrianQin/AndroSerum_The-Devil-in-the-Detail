@@ -1,0 +1,75 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "selected-flow-config.v1",
+      "default": "selected-flow-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "platform_api": {
+      "default": 28,
+      "minimum": 1,
+      "title": "Platform Api",
+      "type": "integer"
+    },
+    "sources": {
+      "items": {
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "sinks": {
+      "items": {
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Sinks",
+      "type": "array"
+    },
+    "callbacks": {
+      "default": false,
+      "title": "Callbacks",
+      "type": "boolean"
+    },
+    "timeout_seconds": {
+      "default": 120,
+      "exclusiveMinimum": 0,
+      "maximum": 3600,
+      "title": "Timeout Seconds",
+      "type": "number"
+    },
+    "solver_timeout": {
+      "default": 60,
+      "maximum": 3600,
+      "minimum": 1,
+      "title": "Solver Timeout",
+      "type": "integer"
+    },
+    "heap_mb": {
+      "default": 2048,
+      "maximum": 16384,
+      "minimum": 128,
+      "title": "Heap Mb",
+      "type": "integer"
+    },
+    "taint_wrapper": {
+      "const": "none",
+      "default": "none",
+      "title": "Taint Wrapper",
+      "type": "string"
+    },
+    "implicit_flows": {
+      "const": "disabled",
+      "default": "disabled",
+      "title": "Implicit Flows",
+      "type": "string"
+    }
+  },
+  "title": "FlowConfig",
+  "type": "object"
+}

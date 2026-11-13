@@ -1,0 +1,53 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "heap-flow-config.v1",
+      "default": "heap-flow-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scope": {
+      "const": "method_local_allocation_storage",
+      "default": "method_local_allocation_storage",
+      "title": "Scope",
+      "type": "string"
+    },
+    "call_effect": {
+      "const": "unknown_on_normal_and_exceptional_exit",
+      "default": "unknown_on_normal_and_exceptional_exit",
+      "title": "Call Effect",
+      "type": "string"
+    },
+    "max_locations": {
+      "default": 10000,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Max Locations",
+      "type": "integer"
+    },
+    "max_worklist_visits": {
+      "default": 100000,
+      "maximum": 10000000,
+      "minimum": 1,
+      "title": "Max Worklist Visits",
+      "type": "integer"
+    },
+    "max_origin_visits": {
+      "default": 500000,
+      "maximum": 10000000,
+      "minimum": 1,
+      "title": "Max Origin Visits",
+      "type": "integer"
+    },
+    "max_witness_visits": {
+      "default": 2000000,
+      "maximum": 100000000,
+      "minimum": 1,
+      "title": "Max Witness Visits",
+      "type": "integer"
+    }
+  },
+  "title": "HeapConfig",
+  "type": "object"
+}

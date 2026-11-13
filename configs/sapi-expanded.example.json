@@ -1,0 +1,38 @@
+{
+  "schema_version": "sapi-import-config.v1",
+  "sources": [
+    {
+      "source_id": "flowdroid-soot-infoflow-android-bundled",
+      "version": "2.15.1",
+      "path": ".tools/m2/de/fraunhofer/sit/sse/flowdroid/soot-infoflow-android/2.15.1/soot-infoflow-android-2.15.1.jar",
+      "archive_entry": "SourcesAndSinks.txt",
+      "sha256": "a73be312561b9f07018e2ca6f72a5629f2c746527692ecf1d9e07841c7fc289a",
+      "resource_sha256": "06e288dd12067a9068458b0abf664dc2878760077786044436210b1875b6e6ef",
+      "format": "flowdroid_tagged"
+    },
+    {
+      "source_id": "Crypto-API-Rules-JCA-MessageDigest",
+      "version": "d4440624fa0aa3070cdc4b1ffea242d9d07a001b",
+      "path": "resources/sapi/MessageDigest.crysl",
+      "archive_entry": null,
+      "sha256": "36bba5e2f8d220fd06ec12eed9dc43b8d370adfb2501168943a26d34bea0f30b",
+      "resource_sha256": "36bba5e2f8d220fd06ec12eed9dc43b8d370adfb2501168943a26d34bea0f30b",
+      "format": "crysl_jca",
+      "api_signatures_path": "resources/sapi/jca-api-signatures.txt",
+      "api_signatures_sha256": "d6d54c79c41233f21bbfe829c8202c467ac429b88ea03e6ce6590d75c37a29d9",
+      "origin_url": "https://raw.githubusercontent.com/CROSSINGTUD/Crypto-API-Rules/d4440624fa0aa3070cdc4b1ffea242d9d07a001b/JavaCryptographicArchitecture/src/MessageDigest.crysl"
+    },
+    {
+      "source_id": "Crypto-API-Rules-JCA-Cipher",
+      "version": "d4440624fa0aa3070cdc4b1ffea242d9d07a001b",
+      "path": "resources/sapi/Cipher.crysl",
+      "archive_entry": null,
+      "sha256": "c6f019b92bcfbbd30dda8ac6f6bbc51d464312f219480a214fc50510730896b7",
+      "resource_sha256": "c6f019b92bcfbbd30dda8ac6f6bbc51d464312f219480a214fc50510730896b7",
+      "format": "crysl_jca",
+      "api_signatures_path": "resources/sapi/jca-api-signatures.txt",
+      "api_signatures_sha256": "d6d54c79c41233f21bbfe829c8202c467ac429b88ea03e6ce6590d75c37a29d9",
+      "origin_url": "https://raw.githubusercontent.com/CROSSINGTUD/Crypto-API-Rules/d4440624fa0aa3070cdc4b1ffea242d9d07a001b/JavaCryptographicArchitecture/src/Cipher.crysl"
+    }
+  ]
+}

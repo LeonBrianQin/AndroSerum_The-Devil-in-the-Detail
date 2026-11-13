@@ -1,0 +1,9 @@
+{
+  "schema_version": "heap-flow-config.v1",
+  "scope": "method_local_allocation_storage",
+  "call_effect": "unknown_on_normal_and_exceptional_exit",
+  "max_locations": 10000,
+  "max_worklist_visits": 100000,
+  "max_origin_visits": 500000,
+  "max_witness_visits": 2000000
+}

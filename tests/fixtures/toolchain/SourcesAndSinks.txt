@@ -1,0 +1,2 @@
+<org.androserum.fixture.MainActivity: java.lang.String source()> -> _SOURCE_
+<org.androserum.fixture.MainActivity: void sink(java.lang.String)> -> _SINK_

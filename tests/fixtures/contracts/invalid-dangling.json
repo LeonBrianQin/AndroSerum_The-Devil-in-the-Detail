@@ -1,0 +1,706 @@
+{
+  "schema_version": "program-facts.v1",
+  "run": {
+    "run_id": "run:synthetic-contract",
+    "input_kind": "synthetic",
+    "apk_sha256": "a0250f4f9750981100162f7e42cb68096ed432f0db8105c3bfeb052a4d2093d2",
+    "apk_size_bytes": 0,
+    "input_name": "synthetic-contract-not-an-apk",
+    "created_at": "2026-10-20T00:00:00+00:00",
+    "tools": [
+      {
+        "tool_id": "tool:synthetic",
+        "name": "hand-authored-contract",
+        "version": "1"
+      }
+    ],
+    "configuration": {
+      "schema_version": "facts-config.v1",
+      "requested_capabilities": [
+        "dex",
+        "calls",
+        "data_flow",
+        "control"
+      ],
+      "options": {}
+    },
+    "config_fingerprint": "f5d098f58b2966ca737968f2517739e36e366b2b4a59d9675fa2281c19dee712"
+  },
+  "elements": [
+    {
+      "id": "dex:main",
+      "run_ref": "run:synthetic-contract",
+      "kind": "dex",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "position": {
+        "kind": "archive",
+        "path": "classes.dex"
+      },
+      "sha256": "300eddad24e25f1d498419c5861ecf4d46e1c249290acddb7dce62ff56ba42d0",
+      "size_bytes": 41
+    },
+    {
+      "id": "class:reporter",
+      "run_ref": "run:synthetic-contract",
+      "kind": "class",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "position": {
+        "kind": "dex_declaration",
+        "dex_ref": "dex:main",
+        "table": "class_def",
+        "index": 0
+      },
+      "descriptor": "Lexample/Reporter;",
+      "superclass": "Ljava/lang/Object;",
+      "interfaces": []
+    },
+    {
+      "id": "method:run",
+      "run_ref": "run:synthetic-contract",
+      "kind": "method",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "position": {
+        "kind": "dex_declaration",
+        "dex_ref": "dex:main",
+        "table": "method_id",
+        "index": 0
+      },
+      "signature": "Lexample/Reporter;->run()V",
+      "is_definition": true,
+      "class_ref": "class:reporter",
+      "is_static": true,
+      "body_status": "available"
+    },
+    {
+      "id": "method:send",
+      "run_ref": "run:synthetic-contract",
+      "kind": "method",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "position": {
+        "kind": "dex_declaration",
+        "dex_ref": "dex:main",
+        "table": "method_id",
+        "index": 1
+      },
+      "signature": "Lexample/Network;->send(Ljava/lang/String;)V",
+      "is_definition": false,
+      "is_static": true,
+      "body_status": "external"
+    },
+    {
+      "id": "method:save",
+      "run_ref": "run:synthetic-contract",
+      "kind": "method",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "position": {
+        "kind": "dex_declaration",
+        "dex_ref": "dex:main",
+        "table": "method_id",
+        "index": 2
+      },
+      "signature": "Lexample/Reporter;->save(Ljava/lang/String;)V",
+      "is_definition": true,
+      "class_ref": "class:reporter",
+      "is_static": true,
+      "body_status": "available"
+    },
+    {
+      "id": "parameter:save0",
+      "run_ref": "run:synthetic-contract",
+      "kind": "parameter",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "method_ref": "method:save",
+      "index": 0,
+      "type_descriptor": "Ljava/lang/String;",
+      "register_index": 0
+    },
+    {
+      "id": "instruction:heartbeat",
+      "run_ref": "run:synthetic-contract",
+      "kind": "instruction",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "position": {
+        "kind": "dex_instruction",
+        "dex_ref": "dex:main",
+        "method_ref": "method:run",
+        "offset_bytes": 0,
+        "position_label": "code+0x0"
+      },
+      "opcode": "const-string",
+      "operation": "constant",
+      "operands": [
+        {
+          "index": 0,
+          "kind": "register",
+          "value": {
+            "status": "known",
+            "value": 0,
+            "source_refs": []
+          }
+        },
+        {
+          "index": 1,
+          "kind": "string",
+          "value": {
+            "status": "known",
+            "value": "heartbeat",
+            "source_refs": []
+          }
+        }
+      ],
+      "slots": [
+        {
+          "slot_kind": "result",
+          "value": {
+            "status": "known",
+            "value": "heartbeat",
+            "source_refs": []
+          }
+        }
+      ],
+      "slots_complete": true
+    },
+    {
+      "id": "instruction:send-heartbeat",
+      "run_ref": "run:synthetic-contract",
+      "kind": "instruction",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "position": {
+        "kind": "dex_instruction",
+        "dex_ref": "dex:main",
+        "method_ref": "method:run",
+        "offset_bytes": 4,
+        "position_label": "code+0x4"
+      },
+      "opcode": "invoke-static",
+      "operation": "invoke",
+      "operands": [
+        {
+          "index": 0,
+          "kind": "register",
+          "value": {
+            "status": "known",
+            "value": 0,
+            "source_refs": []
+          }
+        },
+        {
+          "index": 1,
+          "kind": "method",
+          "value": {
+            "status": "known",
+            "value": "Lexample/Network;->send(Ljava/lang/String;)V",
+            "source_refs": []
+          },
+          "reference_ref": "method:send"
+        }
+      ],
+      "slots": [
+        {
+          "slot_kind": "argument",
+          "slot_index": 0,
+          "type_descriptor": "Ljava/lang/String;",
+          "value": {
+            "status": "known",
+            "value": "heartbeat",
+            "source_refs": [
+              "instruction:heartbeat"
+            ]
+          }
+        }
+      ],
+      "slots_complete": true,
+      "invoke_kind": "static",
+      "declared_target": {
+        "signature": "Lexample/Network;->send(Ljava/lang/String;)V",
+        "method_ref": "method:send"
+      }
+    },
+    {
+      "id": "instruction:identifier",
+      "run_ref": "run:synthetic-contract",
+      "kind": "instruction",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "position": {
+        "kind": "dex_instruction",
+        "dex_ref": "dex:main",
+        "method_ref": "method:run",
+        "offset_bytes": 10,
+        "position_label": "code+0xa"
+      },
+      "opcode": "const-string",
+      "operation": "constant",
+      "operands": [
+        {
+          "index": 0,
+          "kind": "register",
+          "value": {
+            "status": "known",
+            "value": 0,
+            "source_refs": []
+          }
+        },
+        {
+          "index": 1,
+          "kind": "string",
+          "value": {
+            "status": "known",
+            "value": "fixture-id",
+            "source_refs": []
+          }
+        }
+      ],
+      "slots": [
+        {
+          "slot_kind": "result",
+          "value": {
+            "status": "known",
+            "value": "fixture-id",
+            "source_refs": []
+          }
+        }
+      ],
+      "slots_complete": true
+    },
+    {
+      "id": "instruction:send-identifier",
+      "run_ref": "run:synthetic-contract",
+      "kind": "instruction",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "position": {
+        "kind": "dex_instruction",
+        "dex_ref": "dex:main",
+        "method_ref": "method:run",
+        "offset_bytes": 14,
+        "position_label": "code+0xe"
+      },
+      "opcode": "invoke-static",
+      "operation": "invoke",
+      "operands": [
+        {
+          "index": 0,
+          "kind": "register",
+          "value": {
+            "status": "known",
+            "value": 0,
+            "source_refs": []
+          }
+        },
+        {
+          "index": 1,
+          "kind": "method",
+          "value": {
+            "status": "known",
+            "value": "Lexample/Network;->send(Ljava/lang/String;)V",
+            "source_refs": []
+          },
+          "reference_ref": "method:send"
+        }
+      ],
+      "slots": [
+        {
+          "slot_kind": "argument",
+          "slot_index": 0,
+          "type_descriptor": "Ljava/lang/String;",
+          "value": {
+            "status": "known",
+            "value": "fixture-id",
+            "source_refs": [
+              "instruction:identifier"
+            ]
+          }
+        }
+      ],
+      "slots_complete": true,
+      "invoke_kind": "static",
+      "declared_target": {
+        "signature": "Lexample/Network;->send(Ljava/lang/String;)V",
+        "method_ref": "method:send"
+      }
+    },
+    {
+      "id": "instruction:save",
+      "run_ref": "run:synthetic-contract",
+      "kind": "instruction",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "position": {
+        "kind": "dex_instruction",
+        "dex_ref": "dex:main",
+        "method_ref": "method:run",
+        "offset_bytes": 20,
+        "position_label": "code+0x14"
+      },
+      "opcode": "invoke-static",
+      "operation": "invoke",
+      "operands": [
+        {
+          "index": 0,
+          "kind": "register",
+          "value": {
+            "status": "known",
+            "value": 0,
+            "source_refs": []
+          }
+        },
+        {
+          "index": 1,
+          "kind": "method",
+          "value": {
+            "status": "known",
+            "value": "Lexample/Reporter;->save(Ljava/lang/String;)V",
+            "source_refs": []
+          },
+          "reference_ref": "method:save"
+        }
+      ],
+      "slots": [
+        {
+          "slot_kind": "argument",
+          "slot_index": 0,
+          "type_descriptor": "Ljava/lang/String;",
+          "value": {
+            "status": "known",
+            "value": "fixture-id",
+            "source_refs": [
+              "instruction:identifier"
+            ]
+          }
+        }
+      ],
+      "slots_complete": true,
+      "invoke_kind": "static",
+      "declared_target": {
+        "signature": "Lexample/Reporter;->save(Ljava/lang/String;)V",
+        "method_ref": "method:save"
+      }
+    },
+    {
+      "id": "instruction:return",
+      "run_ref": "run:synthetic-contract",
+      "kind": "instruction",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "position": {
+        "kind": "dex_instruction",
+        "dex_ref": "dex:main",
+        "method_ref": "method:run",
+        "offset_bytes": 26,
+        "position_label": "code+0x1a"
+      },
+      "opcode": "return-void",
+      "operation": "return",
+      "operands": [],
+      "slots_complete": true
+    },
+    {
+      "id": "instruction:save-return",
+      "run_ref": "run:synthetic-contract",
+      "kind": "instruction",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": []
+      },
+      "position": {
+        "kind": "dex_instruction",
+        "dex_ref": "dex:main",
+        "method_ref": "method:save",
+        "offset_bytes": 0,
+        "position_label": "code+0x0"
+      },
+      "opcode": "return-void",
+      "operation": "return",
+      "operands": [],
+      "slots_complete": true
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:data-heartbeat",
+      "run_ref": "run:synthetic-contract",
+      "provenance": {
+        "kind": "static_analysis",
+        "tool_ref": "tool:synthetic",
+        "support_refs": [
+          "instruction:heartbeat",
+          "instruction:send-heartbeat"
+        ]
+      },
+      "relation_kind": "data_dependency",
+      "source": {
+        "element_ref": "instruction:heartbeat",
+        "position_label": "code+0x0",
+        "slot_kind": "result"
+      },
+      "target": {
+        "element_ref": "instruction:missing",
+        "position_label": "code+0x4",
+        "slot_kind": "argument",
+        "slot_index": 0
+      },
+      "resolution": "resolved"
+    },
+    {
+      "id": "relation:data-identifier",
+      "run_ref": "run:synthetic-contract",
+      "provenance": {
+        "kind": "static_analysis",
+        "tool_ref": "tool:synthetic",
+        "support_refs": [
+          "instruction:identifier",
+          "instruction:send-identifier"
+        ]
+      },
+      "relation_kind": "data_dependency",
+      "source": {
+        "element_ref": "instruction:identifier",
+        "position_label": "code+0xa",
+        "slot_kind": "result"
+      },
+      "target": {
+        "element_ref": "instruction:send-identifier",
+        "position_label": "code+0xe",
+        "slot_kind": "argument",
+        "slot_index": 0
+      },
+      "resolution": "resolved"
+    },
+    {
+      "id": "relation:call-send-heartbeat",
+      "run_ref": "run:synthetic-contract",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": [
+          "instruction:send-heartbeat",
+          "method:send"
+        ]
+      },
+      "relation_kind": "declared_call",
+      "source": {
+        "element_ref": "instruction:send-heartbeat",
+        "position_label": "code+0x4",
+        "slot_kind": "element"
+      },
+      "target": {
+        "element_ref": "method:send",
+        "slot_kind": "entry"
+      },
+      "resolution": "resolved"
+    },
+    {
+      "id": "relation:call-send-identifier",
+      "run_ref": "run:synthetic-contract",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": [
+          "instruction:send-identifier",
+          "method:send"
+        ]
+      },
+      "relation_kind": "declared_call",
+      "source": {
+        "element_ref": "instruction:send-identifier",
+        "position_label": "code+0xe",
+        "slot_kind": "element"
+      },
+      "target": {
+        "element_ref": "method:send",
+        "slot_kind": "entry"
+      },
+      "resolution": "resolved"
+    },
+    {
+      "id": "relation:call-save",
+      "run_ref": "run:synthetic-contract",
+      "provenance": {
+        "kind": "direct",
+        "tool_ref": "tool:synthetic",
+        "support_refs": [
+          "instruction:save",
+          "method:save"
+        ]
+      },
+      "relation_kind": "declared_call",
+      "source": {
+        "element_ref": "instruction:save",
+        "position_label": "code+0x14",
+        "slot_kind": "element"
+      },
+      "target": {
+        "element_ref": "method:save",
+        "slot_kind": "entry"
+      },
+      "resolution": "resolved"
+    },
+    {
+      "id": "relation:save-argument",
+      "run_ref": "run:synthetic-contract",
+      "provenance": {
+        "kind": "static_analysis",
+        "tool_ref": "tool:synthetic",
+        "support_refs": [
+          "instruction:save",
+          "parameter:save0"
+        ]
+      },
+      "relation_kind": "argument_to_parameter",
+      "source": {
+        "element_ref": "instruction:save",
+        "position_label": "code+0x14",
+        "slot_kind": "argument",
+        "slot_index": 0
+      },
+      "target": {
+        "element_ref": "method:save",
+        "slot_kind": "parameter",
+        "slot_index": 0
+      },
+      "callsite_ref": "instruction:save",
+      "context_ref": "context:save",
+      "binding_refs": [
+        "binding:save"
+      ],
+      "resolution": "resolved"
+    }
+  ],
+  "contexts": [
+    {
+      "id": "context:save",
+      "run_ref": "run:synthetic-contract",
+      "provenance": {
+        "kind": "static_analysis",
+        "tool_ref": "tool:synthetic",
+        "support_refs": [
+          "instruction:save"
+        ]
+      },
+      "abstraction": "synthetic-callstring-k1",
+      "callsite_refs": [
+        "instruction:save"
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "id": "binding:save",
+      "run_ref": "run:synthetic-contract",
+      "provenance": {
+        "kind": "static_analysis",
+        "tool_ref": "tool:synthetic",
+        "support_refs": [
+          "instruction:save",
+          "parameter:save0"
+        ]
+      },
+      "binding_kind": "value",
+      "endpoints": [
+        {
+          "element_ref": "instruction:save",
+          "position_label": "code+0x14",
+          "slot_kind": "argument",
+          "slot_index": 0
+        },
+        {
+          "element_ref": "method:save",
+          "slot_kind": "parameter",
+          "slot_index": 0
+        }
+      ],
+      "context_ref": "context:save"
+    }
+  ],
+  "statuses": [
+    {
+      "id": "status:dex",
+      "run_ref": "run:synthetic-contract",
+      "tool_ref": "tool:synthetic",
+      "capability": "dex",
+      "scope": {
+        "kind": "run"
+      },
+      "state": "complete"
+    },
+    {
+      "id": "status:calls",
+      "run_ref": "run:synthetic-contract",
+      "tool_ref": "tool:synthetic",
+      "capability": "calls",
+      "scope": {
+        "kind": "run"
+      },
+      "state": "partial",
+      "reason": "Synthetic contract contains selected call records only"
+    },
+    {
+      "id": "status:data_flow",
+      "run_ref": "run:synthetic-contract",
+      "tool_ref": "tool:synthetic",
+      "capability": "data_flow",
+      "scope": {
+        "kind": "run"
+      },
+      "state": "partial",
+      "reason": "Synthetic contract contains selected data records only"
+    },
+    {
+      "id": "status:control",
+      "run_ref": "run:synthetic-contract",
+      "tool_ref": "tool:synthetic",
+      "capability": "control",
+      "scope": {
+        "kind": "run"
+      },
+      "state": "not_started",
+      "reason": "No control analysis is represented by this contract example"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.androserum.queryevidence"><uses-sdk android:minSdkVersion="16" android:targetSdkVersion="28"/><application android:label="Typed query evidence static fixture"/></manifest>

@@ -1,0 +1,495 @@
+{
+  "$defs": {
+    "Action": {
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "Action Id",
+          "type": "string"
+        },
+        "function": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Function",
+          "type": "string"
+        },
+        "operation_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Operation Refs",
+          "type": "array"
+        },
+        "objects": {
+          "$ref": "#/$defs/SemanticField"
+        },
+        "inputs": {
+          "$ref": "#/$defs/SemanticField"
+        },
+        "outputs": {
+          "$ref": "#/$defs/SemanticField"
+        },
+        "condition_status": {
+          "enum": [
+            "recorded_local",
+            "unknown"
+          ],
+          "title": "Condition Status",
+          "type": "string"
+        },
+        "condition_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Condition Refs",
+          "type": "array"
+        },
+        "effect_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Effect Refs",
+          "type": "array"
+        },
+        "support_relation_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Support Relation Refs",
+          "type": "array"
+        },
+        "support_fact_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Support Fact Refs",
+          "type": "array"
+        },
+        "limitation_notes": {
+          "items": {
+            "maxLength": 3000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Limitation Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "action_id",
+        "function",
+        "operation_refs",
+        "objects",
+        "inputs",
+        "outputs",
+        "condition_status",
+        "condition_refs",
+        "effect_refs",
+        "support_relation_refs",
+        "support_fact_refs",
+        "limitation_notes"
+      ],
+      "title": "Action",
+      "type": "object"
+    },
+    "ActionLink": {
+      "additionalProperties": false,
+      "properties": {
+        "link_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "Link Id",
+          "type": "string"
+        },
+        "from_action": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "From Action",
+          "type": "string"
+        },
+        "to_action": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "To Action",
+          "type": "string"
+        },
+        "relation_kind": {
+          "enum": [
+            "data_transfer",
+            "information_flow",
+            "state_transfer",
+            "icc_data",
+            "control_constraint",
+            "event_context",
+            "component_target"
+          ],
+          "title": "Relation Kind",
+          "type": "string"
+        },
+        "source_endpoint_ref": {
+          "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+          "title": "Source Endpoint Ref",
+          "type": "string"
+        },
+        "target_endpoint_ref": {
+          "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+          "title": "Target Endpoint Ref",
+          "type": "string"
+        },
+        "support_path": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Support Path",
+          "type": "array"
+        },
+        "evidence_strength": {
+          "enum": [
+            "recorded_dependency_path",
+            "information_flow_summary",
+            "model_assisted_relation"
+          ],
+          "title": "Evidence Strength",
+          "type": "string"
+        },
+        "binding_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Binding Refs",
+          "type": "array"
+        },
+        "condition_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Condition Refs",
+          "type": "array"
+        },
+        "execution_claim": {
+          "const": "possible_only",
+          "title": "Execution Claim",
+          "type": "string"
+        }
+      },
+      "required": [
+        "link_id",
+        "from_action",
+        "to_action",
+        "relation_kind",
+        "source_endpoint_ref",
+        "target_endpoint_ref",
+        "support_path",
+        "evidence_strength",
+        "binding_refs",
+        "condition_refs",
+        "execution_claim"
+      ],
+      "title": "ActionLink",
+      "type": "object"
+    },
+    "BehaviorChain": {
+      "additionalProperties": false,
+      "properties": {
+        "bc_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "Bc Id",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "action_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Action Ids",
+          "type": "array"
+        },
+        "relations": {
+          "items": {
+            "$ref": "#/$defs/ActionLink"
+          },
+          "title": "Relations",
+          "type": "array"
+        },
+        "boundary": {
+          "$ref": "#/$defs/Boundary"
+        },
+        "limitation_notes": {
+          "items": {
+            "maxLength": 3000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Limitation Notes",
+          "type": "array"
+        },
+        "execution_claim": {
+          "const": "possible_only",
+          "title": "Execution Claim",
+          "type": "string"
+        }
+      },
+      "required": [
+        "bc_id",
+        "description",
+        "action_ids",
+        "relations",
+        "boundary",
+        "limitation_notes",
+        "execution_claim"
+      ],
+      "title": "BehaviorChain",
+      "type": "object"
+    },
+    "Boundary": {
+      "additionalProperties": false,
+      "properties": {
+        "inputs": {
+          "$ref": "#/$defs/SemanticField"
+        },
+        "outputs": {
+          "$ref": "#/$defs/SemanticField"
+        },
+        "potential_effects": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Potential Effects",
+          "type": "string"
+        },
+        "condition_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Condition Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "inputs",
+        "outputs",
+        "potential_effects",
+        "condition_refs"
+      ],
+      "title": "Boundary",
+      "type": "object"
+    },
+    "FactQuery": {
+      "additionalProperties": false,
+      "properties": {
+        "query_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "Query Id",
+          "type": "string"
+        },
+        "record_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Record Refs",
+          "type": "array"
+        },
+        "reason": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "query_id",
+        "record_refs",
+        "reason"
+      ],
+      "title": "FactQuery",
+      "type": "object"
+    },
+    "SemanticField": {
+      "additionalProperties": false,
+      "properties": {
+        "availability": {
+          "enum": [
+            "supported",
+            "unknown",
+            "not_applicable"
+          ],
+          "title": "Availability",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "endpoint_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Endpoint Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "availability",
+        "description",
+        "endpoint_refs"
+      ],
+      "title": "SemanticField",
+      "type": "object"
+    },
+    "UnresolvedItem": {
+      "additionalProperties": false,
+      "properties": {
+        "issue_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "Issue Id",
+          "type": "string"
+        },
+        "subject_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "title": "Subject Ids",
+          "type": "array"
+        },
+        "description": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "status": {
+          "enum": [
+            "open",
+            "resolved",
+            "unsupported",
+            "budget_exhausted"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "issue_id",
+        "subject_ids",
+        "description",
+        "evidence_refs",
+        "status"
+      ],
+      "title": "UnresolvedItem",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "behavior-proposal.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "request_id": {
+      "title": "Request Id",
+      "type": "string"
+    },
+    "base_revision": {
+      "minimum": 0,
+      "title": "Base Revision",
+      "type": "integer"
+    },
+    "upsert_actions": {
+      "items": {
+        "$ref": "#/$defs/Action"
+      },
+      "title": "Upsert Actions",
+      "type": "array"
+    },
+    "delete_action_ids": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_]{0,63}$",
+        "type": "string"
+      },
+      "title": "Delete Action Ids",
+      "type": "array"
+    },
+    "upsert_bcs": {
+      "items": {
+        "$ref": "#/$defs/BehaviorChain"
+      },
+      "title": "Upsert Bcs",
+      "type": "array"
+    },
+    "delete_bc_ids": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_]{0,63}$",
+        "type": "string"
+      },
+      "title": "Delete Bc Ids",
+      "type": "array"
+    },
+    "unresolved_updates": {
+      "items": {
+        "$ref": "#/$defs/UnresolvedItem"
+      },
+      "title": "Unresolved Updates",
+      "type": "array"
+    },
+    "fact_queries": {
+      "items": {
+        "$ref": "#/$defs/FactQuery"
+      },
+      "title": "Fact Queries",
+      "type": "array"
+    },
+    "rationale": {
+      "maxLength": 3000,
+      "minLength": 1,
+      "title": "Rationale",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "request_id",
+    "base_revision",
+    "upsert_actions",
+    "delete_action_ids",
+    "upsert_bcs",
+    "delete_bc_ids",
+    "unresolved_updates",
+    "fact_queries",
+    "rationale"
+  ],
+  "title": "Proposal",
+  "type": "object"
+}

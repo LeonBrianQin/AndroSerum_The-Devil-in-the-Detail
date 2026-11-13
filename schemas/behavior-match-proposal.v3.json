@@ -1,0 +1,681 @@
+{
+  "$defs": {
+    "ActionInternalPathSideV2": {
+      "additionalProperties": false,
+      "description": "A path explicitly supported inside one visible native action.",
+      "properties": {
+        "path_kind": {
+          "const": "action_internal",
+          "title": "Path Kind",
+          "type": "string"
+        },
+        "action_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "Action Id",
+          "type": "string"
+        },
+        "support_path": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "title": "Support Path",
+          "type": "array"
+        },
+        "source_endpoint": {
+          "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+          "title": "Source Endpoint",
+          "type": "string"
+        },
+        "target_endpoint": {
+          "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+          "title": "Target Endpoint",
+          "type": "string"
+        },
+        "binding_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Binding Refs",
+          "type": "array"
+        },
+        "context_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Context Refs",
+          "type": "array"
+        },
+        "condition_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Condition Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "path_kind",
+        "action_id",
+        "support_path",
+        "source_endpoint",
+        "target_endpoint",
+        "binding_refs",
+        "context_refs",
+        "condition_refs"
+      ],
+      "title": "ActionInternalPathSideV2",
+      "type": "object"
+    },
+    "ActionMapping": {
+      "additionalProperties": false,
+      "properties": {
+        "mapping_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "Mapping Id",
+          "type": "string"
+        },
+        "query_actions": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Query Actions",
+          "type": "array"
+        },
+        "reference_actions": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Reference Actions",
+          "type": "array"
+        },
+        "object_and_io_correspondence": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Object And Io Correspondence",
+          "type": "string"
+        },
+        "functional_basis": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Functional Basis",
+          "type": "string"
+        },
+        "limitations": {
+          "items": {
+            "maxLength": 3000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "mapping_id",
+        "query_actions",
+        "reference_actions",
+        "object_and_io_correspondence",
+        "functional_basis",
+        "limitations"
+      ],
+      "title": "ActionMapping",
+      "type": "object"
+    },
+    "BCLinkPathSideV2": {
+      "additionalProperties": false,
+      "description": "Existing native BC links; action-internal selectors are forbidden.",
+      "properties": {
+        "link_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Link Ids",
+          "type": "array"
+        },
+        "support_path": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "title": "Support Path",
+          "type": "array"
+        },
+        "source_endpoint": {
+          "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+          "title": "Source Endpoint",
+          "type": "string"
+        },
+        "target_endpoint": {
+          "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+          "title": "Target Endpoint",
+          "type": "string"
+        },
+        "binding_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Binding Refs",
+          "type": "array"
+        },
+        "context_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Context Refs",
+          "type": "array"
+        },
+        "condition_refs": {
+          "items": {
+            "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Condition Refs",
+          "type": "array"
+        },
+        "path_kind": {
+          "const": "bc_links",
+          "title": "Path Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "link_ids",
+        "support_path",
+        "source_endpoint",
+        "target_endpoint",
+        "binding_refs",
+        "context_refs",
+        "condition_refs",
+        "path_kind"
+      ],
+      "title": "BCLinkPathSideV2",
+      "type": "object"
+    },
+    "Citation": {
+      "additionalProperties": false,
+      "properties": {
+        "side": {
+          "enum": [
+            "query",
+            "reference"
+          ],
+          "title": "Side",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "action",
+            "link",
+            "condition",
+            "evidence"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "ref": {
+          "minLength": 1,
+          "title": "Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "side",
+        "kind",
+        "ref"
+      ],
+      "title": "Citation",
+      "type": "object"
+    },
+    "ConditionMapping": {
+      "additionalProperties": false,
+      "properties": {
+        "mapping_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "Mapping Id",
+          "type": "string"
+        },
+        "query_condition": {
+          "anyOf": [
+            {
+              "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Query Condition"
+        },
+        "reference_condition": {
+          "anyOf": [
+            {
+              "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reference Condition"
+        },
+        "comparison": {
+          "enum": [
+            "equivalent",
+            "compatible_with_limits",
+            "conflict",
+            "unknown"
+          ],
+          "title": "Comparison",
+          "type": "string"
+        },
+        "affected_mappings": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "title": "Affected Mappings",
+          "type": "array"
+        },
+        "explanation": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mapping_id",
+        "query_condition",
+        "reference_condition",
+        "comparison",
+        "affected_mappings",
+        "explanation"
+      ],
+      "title": "ConditionMapping",
+      "type": "object"
+    },
+    "Difference": {
+      "additionalProperties": false,
+      "properties": {
+        "difference_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "Difference Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "direction",
+            "condition",
+            "purpose",
+            "function",
+            "evidence",
+            "coverage"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "impact": {
+          "enum": [
+            "blocks_selected_scope",
+            "limits_reference_scope",
+            "unresolved"
+          ],
+          "title": "Impact",
+          "type": "string"
+        },
+        "citations": {
+          "items": {
+            "$ref": "#/$defs/Citation"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Citations",
+          "type": "array"
+        },
+        "explanation": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "difference_id",
+        "kind",
+        "impact",
+        "citations",
+        "explanation"
+      ],
+      "title": "Difference",
+      "type": "object"
+    },
+    "EndpointCorrespondence": {
+      "additionalProperties": false,
+      "properties": {
+        "query_endpoint": {
+          "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+          "title": "Query Endpoint",
+          "type": "string"
+        },
+        "reference_endpoint": {
+          "pattern": "^(op|ep|rel|cond|bind|effect|fact)_[0-9a-f]{12}$",
+          "title": "Reference Endpoint",
+          "type": "string"
+        },
+        "query_role": {
+          "enum": [
+            "source",
+            "target"
+          ],
+          "title": "Query Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "query_endpoint",
+        "reference_endpoint",
+        "query_role"
+      ],
+      "title": "EndpointCorrespondence",
+      "type": "object"
+    },
+    "RelationMappingV2": {
+      "additionalProperties": false,
+      "properties": {
+        "mapping_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "Mapping Id",
+          "type": "string"
+        },
+        "from_mapping": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "From Mapping",
+          "type": "string"
+        },
+        "to_mapping": {
+          "pattern": "^[a-z][a-z0-9_]{0,63}$",
+          "title": "To Mapping",
+          "type": "string"
+        },
+        "query": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BCLinkPathSideV2"
+            },
+            {
+              "$ref": "#/$defs/ActionInternalPathSideV2"
+            }
+          ],
+          "title": "Query"
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BCLinkPathSideV2"
+            },
+            {
+              "$ref": "#/$defs/ActionInternalPathSideV2"
+            }
+          ],
+          "title": "Reference"
+        },
+        "endpoint_correspondence": {
+          "items": {
+            "$ref": "#/$defs/EndpointCorrespondence"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Endpoint Correspondence",
+          "type": "array"
+        },
+        "binding_basis": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Binding Basis",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "aligned",
+            "reversed"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "relation_kind": {
+          "enum": [
+            "data_transfer",
+            "information_flow",
+            "state_transfer",
+            "icc_data",
+            "control_constraint",
+            "event_context",
+            "component_target"
+          ],
+          "title": "Relation Kind",
+          "type": "string"
+        },
+        "evidence_strength": {
+          "enum": [
+            "recorded_dependency_path",
+            "information_flow_summary",
+            "model_assisted_relation"
+          ],
+          "title": "Evidence Strength",
+          "type": "string"
+        },
+        "claims_complete_fine_path": {
+          "title": "Claims Complete Fine Path",
+          "type": "boolean"
+        },
+        "explanation": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mapping_id",
+        "from_mapping",
+        "to_mapping",
+        "query",
+        "reference",
+        "endpoint_correspondence",
+        "binding_basis",
+        "direction",
+        "relation_kind",
+        "evidence_strength",
+        "claims_complete_fine_path",
+        "explanation"
+      ],
+      "title": "RelationMappingV2",
+      "type": "object"
+    },
+    "Unmapped": {
+      "additionalProperties": false,
+      "properties": {
+        "query_actions": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "title": "Query Actions",
+          "type": "array"
+        },
+        "reference_actions": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "title": "Reference Actions",
+          "type": "array"
+        },
+        "query_links": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "title": "Query Links",
+          "type": "array"
+        },
+        "reference_links": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "title": "Reference Links",
+          "type": "array"
+        }
+      },
+      "required": [
+        "query_actions",
+        "reference_actions",
+        "query_links",
+        "reference_links"
+      ],
+      "title": "Unmapped",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "English wire decisions with the unchanged typed-path evidence rules.",
+  "properties": {
+    "schema_version": {
+      "const": "behavior-match-proposal.v3",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "request_id": {
+      "title": "Request Id",
+      "type": "string"
+    },
+    "pair_sha256": {
+      "title": "Pair Sha256",
+      "type": "string"
+    },
+    "decision": {
+      "enum": [
+        "supported_match",
+        "different_behavior",
+        "insufficient_evidence"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "scope": {
+      "enum": [
+        "full",
+        "partial",
+        "none"
+      ],
+      "title": "Scope",
+      "type": "string"
+    },
+    "action_mappings": {
+      "items": {
+        "$ref": "#/$defs/ActionMapping"
+      },
+      "maxItems": 64,
+      "title": "Action Mappings",
+      "type": "array"
+    },
+    "relation_mappings": {
+      "items": {
+        "$ref": "#/$defs/RelationMappingV2"
+      },
+      "maxItems": 64,
+      "title": "Relation Mappings",
+      "type": "array"
+    },
+    "condition_mappings": {
+      "items": {
+        "$ref": "#/$defs/ConditionMapping"
+      },
+      "maxItems": 128,
+      "title": "Condition Mappings",
+      "type": "array"
+    },
+    "differences": {
+      "items": {
+        "$ref": "#/$defs/Difference"
+      },
+      "maxItems": 128,
+      "title": "Differences",
+      "type": "array"
+    },
+    "unmapped": {
+      "$ref": "#/$defs/Unmapped"
+    },
+    "limitations": {
+      "items": {
+        "maxLength": 3000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "unresolved": {
+      "items": {
+        "maxLength": 3000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Unresolved",
+      "type": "array"
+    },
+    "rationale": {
+      "maxLength": 3000,
+      "minLength": 1,
+      "title": "Rationale",
+      "type": "string"
+    },
+    "execution_claim": {
+      "const": "possible_only",
+      "title": "Execution Claim",
+      "type": "string"
+    },
+    "unconditional_execution_claimed": {
+      "const": false,
+      "title": "Unconditional Execution Claimed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "request_id",
+    "pair_sha256",
+    "decision",
+    "scope",
+    "action_mappings",
+    "relation_mappings",
+    "condition_mappings",
+    "differences",
+    "unmapped",
+    "limitations",
+    "unresolved",
+    "rationale",
+    "execution_claim",
+    "unconditional_execution_claimed"
+  ],
+  "title": "MatchProposalV3",
+  "type": "object"
+}

@@ -1,0 +1,112 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "bc-encoding-config.v1",
+      "default": "bc-encoding-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "serializer_version": {
+      "const": "bc-semantics.v1",
+      "default": "bc-semantics.v1",
+      "title": "Serializer Version",
+      "type": "string"
+    },
+    "repository": {
+      "const": "google-bert/bert-base-uncased",
+      "default": "google-bert/bert-base-uncased",
+      "title": "Repository",
+      "type": "string"
+    },
+    "revision": {
+      "const": "86b5e0934494bd15c9632b12f734a8a67f723594",
+      "default": "86b5e0934494bd15c9632b12f734a8a67f723594",
+      "title": "Revision",
+      "type": "string"
+    },
+    "max_tokens": {
+      "default": 512,
+      "maximum": 512,
+      "minimum": 64,
+      "title": "Max Tokens",
+      "type": "integer"
+    },
+    "oversize_unit": {
+      "const": "reject_without_truncation",
+      "default": "reject_without_truncation",
+      "title": "Oversize Unit",
+      "type": "string"
+    },
+    "chunk_boundary": {
+      "const": "semantic_record",
+      "default": "semantic_record",
+      "title": "Chunk Boundary",
+      "type": "string"
+    },
+    "token_pooling": {
+      "const": "last_hidden_mean_without_padding_or_special",
+      "default": "last_hidden_mean_without_padding_or_special",
+      "title": "Token Pooling",
+      "type": "string"
+    },
+    "bc_pooling": {
+      "const": "unweighted_mean_of_raw_chunk_vectors",
+      "default": "unweighted_mean_of_raw_chunk_vectors",
+      "title": "Bc Pooling",
+      "type": "string"
+    },
+    "normalization": {
+      "const": "l2_after_chunk_mean",
+      "default": "l2_after_chunk_mean",
+      "title": "Normalization",
+      "type": "string"
+    },
+    "device": {
+      "const": "cpu",
+      "default": "cpu",
+      "title": "Device",
+      "type": "string"
+    },
+    "dtype": {
+      "const": "float32",
+      "default": "float32",
+      "title": "Dtype",
+      "type": "string"
+    },
+    "attention": {
+      "const": "eager",
+      "default": "eager",
+      "title": "Attention",
+      "type": "string"
+    },
+    "batch_size": {
+      "default": 4,
+      "maximum": 16,
+      "minimum": 1,
+      "title": "Batch Size",
+      "type": "integer"
+    },
+    "threads": {
+      "default": 4,
+      "maximum": 16,
+      "minimum": 1,
+      "title": "Threads",
+      "type": "integer"
+    },
+    "seed": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "norm_epsilon": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Norm Epsilon",
+      "type": "number"
+    }
+  },
+  "title": "EncodingConfig",
+  "type": "object"
+}

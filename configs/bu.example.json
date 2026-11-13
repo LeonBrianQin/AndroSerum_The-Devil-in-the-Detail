@@ -1,0 +1,15 @@
+{
+  "schema_version": "bu-config.v1",
+  "root_signatures": [],
+  "max_units": 256,
+  "max_roots": 256,
+  "max_tasks": 2000,
+  "max_operations": 256,
+  "max_support_records": 5000,
+  "max_support_files": 5000,
+  "context_policy": "existing_frame_projections_only",
+  "source_policy": "never_expand_other_consumers",
+  "visibility_policy": "explicit_records_no_raw_files",
+  "condition_source_policy": "existing_predicate_inputs",
+  "information_flow_policy": "unique_root_frame_summary"
+}

@@ -1,0 +1,32 @@
+# Local environments and downloaded dependencies
+.conda/
+.venv/
+.tools/
+.models/
+.resources/
+resources/sapi/upstream-v2/
+
+# Private inputs, generated runs, and internal project records
+inputs/
+artifacts/
+docs/
+ANDROSERUM_IMPLEMENTATION_PLAN.md
+ANDROSERUM_REBUILD_HANDOFF.md
+sootOutput/
+*.apk
+*.dex
+*.sqlite
+*.sqlite-*
+*.db
+
+# Build outputs and credentials
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.egg-info/
+**/target/
+build/
+dist/
+.env
+.env.*
+!.env.example

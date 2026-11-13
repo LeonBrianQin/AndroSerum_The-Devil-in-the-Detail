@@ -1,0 +1,19 @@
+{
+  "schema_version": "bc-encoding-config.v1",
+  "serializer_version": "bc-semantics.v1",
+  "repository": "google-bert/bert-base-uncased",
+  "revision": "86b5e0934494bd15c9632b12f734a8a67f723594",
+  "max_tokens": 512,
+  "oversize_unit": "reject_without_truncation",
+  "chunk_boundary": "semantic_record",
+  "token_pooling": "last_hidden_mean_without_padding_or_special",
+  "bc_pooling": "unweighted_mean_of_raw_chunk_vectors",
+  "normalization": "l2_after_chunk_mean",
+  "device": "cpu",
+  "dtype": "float32",
+  "attention": "eager",
+  "batch_size": 4,
+  "threads": 4,
+  "seed": 0,
+  "norm_epsilon": 1e-12
+}

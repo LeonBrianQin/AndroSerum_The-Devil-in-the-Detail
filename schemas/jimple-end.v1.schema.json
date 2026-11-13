@@ -1,0 +1,72 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "jimple-end.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "request_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Request Sha256",
+      "type": "string"
+    },
+    "apk_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Apk Sha256",
+      "type": "string"
+    },
+    "state": {
+      "enum": [
+        "complete",
+        "partial",
+        "failed"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    },
+    "commits": {
+      "items": {
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "title": "Commits",
+      "type": "array"
+    },
+    "method_budget_exhausted": {
+      "title": "Method Budget Exhausted",
+      "type": "boolean"
+    },
+    "phantom_classes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Phantom Classes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "request_sha256",
+    "apk_sha256",
+    "state",
+    "reason",
+    "commits",
+    "method_budget_exhausted",
+    "phantom_classes"
+  ],
+  "title": "BackendEnd",
+  "type": "object"
+}

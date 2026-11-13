@@ -1,0 +1,46 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "call-flow-config.v1",
+      "default": "call-flow-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dispatch": {
+      "const": "application_cha",
+      "default": "application_cha",
+      "title": "Dispatch",
+      "type": "string"
+    },
+    "context_policy": {
+      "const": "balanced_stack_no_merge",
+      "default": "balanced_stack_no_merge",
+      "title": "Context Policy",
+      "type": "string"
+    },
+    "max_calls": {
+      "default": 100000,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Max Calls",
+      "type": "integer"
+    },
+    "max_candidates_per_call": {
+      "default": 128,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Max Candidates Per Call",
+      "type": "integer"
+    },
+    "max_trace_depth": {
+      "default": 8,
+      "maximum": 128,
+      "minimum": 1,
+      "title": "Max Trace Depth",
+      "type": "integer"
+    }
+  },
+  "title": "CallConfig",
+  "type": "object"
+}

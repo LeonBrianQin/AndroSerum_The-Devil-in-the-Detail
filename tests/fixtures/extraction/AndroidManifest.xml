@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.androserum.extraction" android:versionCode="7" android:versionName="fixture-1">
+  <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="28" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <permission android:name="org.androserum.extraction.TEST" android:protectionLevel="normal" />
+  <application android:label="@string/app_name">
+    <activity android:name=".MainActivity" android:exported="true">
+      <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>
+    </activity>
+    <activity-alias android:name=".Alias" android:targetActivity=".MainActivity" android:exported="false" />
+    <service android:name=".DeclaredService" android:exported="false" />
+    <receiver android:name=".DeclaredReceiver" android:exported="false"><intent-filter><action android:name="org.androserum.extraction.EVENT" /></intent-filter></receiver>
+    <provider android:name=".DeclaredProvider" android:authorities="org.androserum.extraction.provider" android:exported="false" />
+  </application>
+</manifest>

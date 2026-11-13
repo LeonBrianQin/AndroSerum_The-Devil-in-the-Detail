@@ -1,0 +1,33 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "control-config.v1",
+      "default": "control-config.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scope": {
+      "const": "explicit_if_normal_completion",
+      "default": "explicit_if_normal_completion",
+      "title": "Scope",
+      "type": "string"
+    },
+    "max_visits": {
+      "default": 100000,
+      "maximum": 10000000,
+      "minimum": 1,
+      "title": "Max Visits",
+      "type": "integer"
+    },
+    "max_controls": {
+      "default": 100000,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Max Controls",
+      "type": "integer"
+    }
+  },
+  "title": "ControlConfig",
+  "type": "object"
+}

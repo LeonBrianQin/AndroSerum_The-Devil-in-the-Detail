@@ -1,0 +1,5 @@
+{
+  "schema_version": "facts-config.v1",
+  "requested_capabilities": ["dex", "manifest", "resources", "dex_jimple_mapping", "data_flow", "calls", "objects", "control", "events"],
+  "options": {}
+}
